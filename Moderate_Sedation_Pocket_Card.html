@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Moderate Sedation — Pocket Card</title>
+<style>
+  :root{
+    --bg:#eef2f6; --panel:#ffffff; --panel2:#f4f7fa;
+    --ink:#16283a; --sub:#5c7285; --line:#d5dee7;
+    --navy:#1d5a97; --teal:#0f7d84; --gold:#a9761a; --red:#c23b3b; --green:#2f8f5b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:12px;line-height:1.28;-webkit-text-size-adjust:100%;}
+  .wrap{max-width:940px;margin:0 auto;padding:8px;}
+  header{background:linear-gradient(135deg,#1d5a97,#123a63);border:1px solid #123a63;
+    border-radius:10px;padding:8px 12px;margin-bottom:8px;}
+  header h1{margin:0;font-size:16px;letter-spacing:.3px;color:#fff;}
+  header .sub{color:#cfe0f0;font-size:11px;margin-top:1px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:8px 10px;box-shadow:0 1px 3px rgba(20,40,60,.06);margin-bottom:8px;}
+  /* masonry region for short cards — balances by height, no wasted gaps */
+  .pack{column-count:2;column-gap:8px;}
+  @media(max-width:640px){.pack{column-count:1;}}
+  .pack .card{display:inline-block;width:100%;
+    break-inside:avoid;-webkit-column-break-inside:avoid;}
+  /* deterministic two-column pair */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start;}
+  @media(max-width:640px){.duo{grid-template-columns:1fr;}}
+  .duo .card{margin-bottom:8px;}
+  .card h2{margin:0 0 5px;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;
+    display:flex;align-items:center;gap:6px;}
+  /* procedural-phase divider */
+  .phase{display:flex;align-items:center;gap:8px;margin:6px 2px 0;
+    font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--sub);}
+  .phase::after{content:"";flex:1;height:1px;background:var(--line);}
+  .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .d-navy{background:var(--navy);} .d-teal{background:var(--teal);}
+  .d-gold{background:var(--gold);} .d-red{background:var(--red);} .d-green{background:var(--green);}
+  ul{margin:0;padding-left:15px;} li{margin:1px 0;}
+  b{color:#0c2138;} .mut{color:var(--sub);}
+  .card h2{color:var(--navy);}
+  .tag{display:inline-block;font-size:9.5px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.4px;padding:1px 6px;border-radius:20px;vertical-align:middle;}
+  .t-gold{background:rgba(224,169,46,.16);color:var(--gold);border:1px solid rgba(224,169,46,.4);}
+  .t-red{background:rgba(225,91,91,.14);color:var(--red);border:1px solid rgba(225,91,91,.4);}
+
+  /* continuum */
+  .cont{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:2px;}
+  @media(max-width:640px){.cont{grid-template-columns:1fr 1fr;}}
+  .step{border-radius:9px;padding:7px 8px;font-size:10.5px;line-height:1.3;border:1px solid transparent;}
+  .s1{background:rgba(67,181,129,.13);} .s2{background:rgba(224,169,46,.15);border-color:var(--gold);}
+  .s3{background:rgba(225,120,60,.15);} .s4{background:rgba(225,91,91,.16);}
+  .step .lab{display:block;font-weight:700;font-size:11px;margin-bottom:2px;}
+  .step.s2 .lab{color:var(--gold);}
+
+  /* meds table */
+  table{width:100%;border-collapse:collapse;font-size:10.5px;table-layout:auto;}
+  th,td{text-align:left;padding:4px 6px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--sub);font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+  td .drug{font-weight:700;color:var(--navy);} td .cls{color:var(--sub);font-size:9.5px;display:block;}
+  table td:nth-child(3){white-space:nowrap;}
+  .rev{color:var(--green);font-weight:600;} .norev{color:var(--red);font-weight:600;}
+  .scroll{overflow-x:visible;}
+  .chip{display:inline-block;background:rgba(29,90,151,.1);border:1px solid rgba(29,90,151,.4);
+    color:var(--navy);border-radius:7px;padding:2px 7px;margin:2px 4px 2px 0;font-size:10.5px;}
+  .foot{color:var(--sub);font-size:9.5px;margin:10px 4px 4px;line-height:1.4;}
+  .kv b{color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Moderate (Conscious) Sedation</h1>
+    <div class="sub">Adult procedural sedation + critical-care lens · pocket reference</div>
+  </header>
+
+  <div class="phase">Pre-procedure</div>
+
+  <!-- CONSENT (lead) -->
+  <div class="card full">
+    <h2><span class="dot d-navy"></span>Informed Consent <span class="tag t-gold">sedation-specific</span></h2>
+    <div><span class="chip">Benefits: comfort · anxiolysis · amnesia</span>
+      <span class="chip">Alternatives: local/regional · general anesthesia · defer / none</span></div>
+    <div class="mut" style="margin-top:6px;font-size:11px;"><b>Risks to disclose:</b> respiratory depression/hypoxia, need for airway support, aspiration, hypotension, drug/allergic reaction, paradoxical reaction, deeper-than-intended sedation, sedation failure; rare cardiorespiratory arrest/death.</div>
+    <div class="mut" style="margin-top:5px;font-size:10.5px;">Obtain from a decision-capable patient before any sedative is given; confirm NPO status; use surrogate/emergency pathway if capacity impaired.</div>
+  </div>
+
+  <div class="pack">
+    <!-- INDICATIONS -->
+    <div class="card">
+      <h2><span class="dot d-navy"></span>Indications</h2>
+      <ul>
+        <li>Endoscopy</li>
+        <li>Cardioversion; TEE</li>
+        <li>Fracture / joint reduction</li>
+        <li>Abscess I&amp;D, laceration/burn care</li>
+        <li>Central line, chest tube, LP, bronchoscopy</li>
+        <li>Imaging requiring stillness + comfort</li>
+      </ul>
+    </div>
+
+    <!-- PREP / SOAP-ME -->
+    <div class="card">
+      <h2><span class="dot d-teal"></span>Before First Dose — SOAP-ME</h2>
+      <ul>
+        <li><b>S</b>uction working (Yankauer)</li>
+        <li><b>O</b>xygen + capnography</li>
+        <li><b>A</b>irway: BVM, OPA/NPA, LMA, laryngoscope/ETT</li>
+        <li><b>P</b>harmacy: sedatives, reversal, code drugs</li>
+        <li><b>M</b>onitors: SpO₂, EtCO₂, ECG, BP q5min</li>
+        <li><b>E</b>quipment: IV, defib, dedicated monitor</li>
+      </ul>
+    </div>
+
+    <!-- NPO + GLP-1 -->
+    <div class="card">
+      <h2><span class="dot d-teal"></span>NPO / Fasting (elective)</h2>
+      <div class="kv">
+        <div><b>2 h</b> — clear liquids</div>
+        <div><b>4 h</b> — breast milk</div>
+        <div><b>6 h</b> — formula / light meal / nonhuman milk</div>
+        <div><b>8 h</b> — fatty/fried food, meat</div>
+      </div>
+      <div class="mut" style="margin-top:6px;font-size:10.5px;">Don't cancel solely for clears &lt;2 h (2023 ASA). Assess airway: ASA class · Mallampati · mouth opening · thyromental · neck ROM · dentition · STOP-BANG.</div>
+      <div class="mut" style="margin-top:6px;font-size:10.5px;"><b>GLP-1 agonists</b> (semaglutide, tirzepatide, etc.) delay gastric emptying → aspiration risk despite fasting. Hold weekly agents the week prior, daily agents the day of; if not held or GI symptoms (nausea, bloating, fullness), treat as full stomach — gastric POCUS, RSI precautions, or defer. <span class="tag t-gold">newer guidance</span></div>
+    </div>
+  </div>
+
+  <div class="phase">During</div>
+
+  <!-- CONTINUUM -->
+  <div class="card full">
+    <h2><span class="dot d-gold"></span>Spectrum of Sedation <span class="tag t-gold">ASA continuum</span></h2>
+    <div class="cont">
+      <div class="step s1"><span class="lab">Minimal</span>Normal response to voice · airway/vent/CV normal</div>
+      <div class="step s2"><span class="lab">Moderate ★</span>Purposeful to voice ±touch · airway patent · vent adequate · CV ok</div>
+      <div class="step s3"><span class="lab">Deep</span>Purposeful only to repeated/painful stim · may need airway support</div>
+      <div class="step s4"><span class="lab">General</span>Unarousable to pain · airway/vent support usually needed</div>
+    </div>
+    <div class="mut" style="margin-top:6px;font-size:10.5px;">Depth is unpredictable → must be able to rescue one level deeper than intended. Reflex withdrawal ≠ purposeful.</div>
+  </div>
+
+    <!-- MEDS -->
+    <div class="card full">
+      <h2><span class="dot d-gold"></span>Medications — Adult IV</h2>
+      <div class="mut" style="font-size:10.5px;margin-bottom:5px;">Titrate in small increments; wait for peak before re-dosing. ↓ dose 25–50% in elderly, hepatic/renal impairment, and when combining sedative + opioid (synergistic respiratory depression).</div>
+      <div class="scroll">
+      <table>
+        <tr><th>Drug</th><th>Dose / titration</th><th style="white-space:nowrap">On/Dur</th><th>Role</th><th>Adverse / reversal</th></tr>
+        <tr>
+          <td><span class="drug">Midazolam</span><span class="cls">benzo</span></td>
+          <td>0.02–0.03 mg/kg (≈0.5–2 mg), repeat 0.5–1 mg q2–5min; usual 2.5–5 mg</td>
+          <td>1–3 / 30–60 min</td>
+          <td>Sedation, anxiolysis, amnesia</td>
+          <td>Resp depression (↑↑ w/ opioid), hypotension, paradoxical agitation. <span class="rev">Rev: flumazenil</span></td>
+        </tr>
+        <tr>
+          <td><span class="drug">Fentanyl</span><span class="cls">opioid</span></td>
+          <td>0.5–1 mcg/kg (≈25–50 mcg), repeat 25 mcg q2–5min; usual 50–100 mcg</td>
+          <td>1–2 / 30–60 min</td>
+          <td>Analgesia</td>
+          <td>Resp depression, bradycardia, N/V, chest-wall rigidity (rapid/high). <span class="rev">Rev: naloxone</span></td>
+        </tr>
+        <tr>
+          <td><span class="drug">Ketamine</span><span class="cls">dissociative</span></td>
+          <td>1–2 mg/kg over 1–2 min (dissociative); redose 0.5–1 mg/kg</td>
+          <td>~1 / 10–20 min</td>
+          <td>Analgesia + sedation; preserves airway/drive</td>
+          <td>Emergence rxn, hypersalivation, laryngospasm, HTN/tachycardia, ↑IOP</td>
+        </tr>
+        <tr>
+          <td><span class="drug">Propofol</span><span class="cls">hypnotic · deep</span></td>
+          <td>0.5–1 mg/kg bolus, then 0.25–0.5 mg/kg q1–3min</td>
+          <td>&lt;1 / 3–10 min</td>
+          <td>Rapid on/off; narrow margin — often anesthesia-credentialed</td>
+          <td>Resp depression/apnea, hypotension, inj. pain, no analgesia. <span class="norev">No reversal</span></td>
+        </tr>
+        <tr>
+          <td><span class="drug">Etomidate</span><span class="cls">hypnotic</span></td>
+          <td>0.1–0.15 mg/kg</td>
+          <td>&lt;1 / 5–15 min</td>
+          <td>Hemodynamically stable; brief</td>
+          <td>Myoclonus, N/V, inj. pain, transient adrenal suppression; no analgesia</td>
+        </tr>
+        <tr>
+          <td><span class="drug">Dexmedetomidine</span><span class="cls">α₂-agonist</span></td>
+          <td>Load 1 mcg/kg over 10 min, then 0.2–0.7 mcg/kg/h</td>
+          <td>5–10 min / 15–30 min</td>
+          <td>Sedation w/ minimal resp depression</td>
+          <td>Bradycardia, hypotension (transient HTN on load), dry mouth</td>
+        </tr>
+      </table>
+      </div>
+    </div>
+
+  <!-- MONITORING -->
+  <div class="card full">
+    <h2><span class="dot d-teal"></span>Monitoring</h2>
+    <ul>
+      <li>Continuous SpO₂ + EtCO₂ (capnography catches hypoventilation before desat), ECG, BP q5min, RR, LOC</li>
+      <li>Supplemental O₂; document vitals at set intervals</li>
+    </ul>
+  </div>
+
+  <div class="phase">Rescue</div>
+
+  <div class="duo">
+    <!-- COMPLICATIONS -->
+    <div class="card">
+      <h2><span class="dot d-red"></span>Complications → Fix</h2>
+      <ul>
+        <li><b>Hypoventilation/apnea</b> → stimulate, reposition, jaw-thrust, ↑O₂, BVM; pause drug</li>
+        <li><b>Obstruction</b> → reposition, OPA/NPA, BVM</li>
+        <li><b>Hypoxia &lt;90%</b> → O₂, assist vent, hold</li>
+        <li><b>Aspiration</b> → suction, position, support</li>
+        <li><b>Hypotension</b> → fluids, ↓sedative, pressor</li>
+        <li><b>Bradycardia</b> → atropine if symptomatic</li>
+        <li><b>Laryngospasm</b> (ketamine) → jaw-thrust, PPV</li>
+        <li><b>Chest-wall rigidity</b> ("wooden chest," rapid/high-dose fentanyl) → stop opioid; naloxone (reverses it); BVM w/ 100% O₂; if refractory → NMB (succinylcholine/rocuronium) + intubate. Benzo = adjunct sedation only (won't relax the rigidity). Prevent: give opioid slowly.</li>
+      </ul>
+    </div>
+
+    <!-- REVERSAL -->
+    <div class="card">
+      <h2><span class="dot d-red"></span>Reversal — Rescue, Not Routine</h2>
+      <ul>
+        <li class="mut">First-line for over-sedation = airway + O₂ + ventilation (stimulate, jaw-thrust, BVM). Reversal supplements support.</li>
+        <li><b>Naloxone</b> 0.04–0.4 mg IV q2–3min, titrate to respiration. Dur 30–60 min → watch re-sedation (monitor ≥2 h).</li>
+        <li><b>Flumazenil</b> 0.2 mg IV over 15s, repeat q1min (max ~1 mg). Seizure risk in benzo-dependent / TCA co-ingestion.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">Recovery</div>
+
+  <!-- RECOVERY -->
+  <div class="card full">
+    <h2><span class="dot d-teal"></span>Recovery</h2>
+    <ul>
+      <li>Monitor until baseline mental status &amp; vitals; watch re-sedation — reversal agents are shorter-acting than the drugs they reverse</li>
+      <li>Confirm protective airway reflexes returned before reducing monitoring</li>
+    </ul>
+  </div>
+
+  <div class="phase">Critical care</div>
+
+    <!-- CRITICAL CARE LENS -->
+    <div class="card full">
+      <h2><span class="dot d-teal"></span>Critical-Care Lens <span class="tag t-gold">ICU</span></h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <div style="font-weight:700;color:var(--navy);font-size:11px;margin-bottom:3px;">Procedural sedation in the critically ill</div>
+          <ul>
+            <li>Low reserve → exaggerated hypotension &amp; desaturation; pre-oxygenate, have vasopressors + airway ready</li>
+            <li>Unstable? Favor ketamine (preserves BP/drive) or etomidate (hemodynamically neutral) over propofol/benzo boluses</li>
+            <li>Common ICU procedures: DC cardioversion, bronchoscopy, chest tube, central/arterial line, trach, wound care, EGD/TEE</li>
+            <li>Already intubated → sedation goal is comfort + tolerance, not airway protection; still monitor hemodynamics/EtCO₂</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--navy);font-size:11px;margin-bottom:3px;">RASS — quick scale</div>
+          <div class="mut" style="font-size:10.5px;line-height:1.5;">
+            <b style="color:var(--red)">+4</b> combative · <b style="color:var(--red)">+3</b> very agitated · <b style="color:var(--gold)">+2</b> agitated · <b style="color:var(--gold)">+1</b> restless ·
+            <b style="color:var(--green)">0</b> alert/calm ·
+            <b style="color:var(--green)">−1</b> drowsy · <b style="color:var(--green)">−2</b> light sedation ·
+            <b>−3</b> moderate · <b>−4</b> deep · <b>−5</b> unarousable
+            <div style="margin-top:3px;">Most vented patients: aim <b style="color:var(--green)">0 to −2</b>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="foot">
+    <b style="color:var(--red)">Consider high-risk if:</b> ASA III–IV, frailty, or age extremes · difficult airway (Mallampati III–IV, short thyromental, limited neck ROM, OSA) · hemodynamic instability or severe cardiopulmonary disease · full stomach / inadequate NPO / high aspiration risk · prior adverse sedation reaction.<br><br>
+    Educational quick-reference for credentialed clinicians — not a substitute for institutional policy, full prescribing information, or clinical judgment. Standard adult IV dosing; verify weight-based and organ-function adjustments locally.
+    Sources: ASA <i>Continuum of Depth of Sedation</i> (amended Oct 23, 2024); ASA Practice Guidelines for Sedation/Analgesia by Non-Anesthesiologists; ASA 2023 Preoperative Fasting modular update; ASA/multi-society GLP-1 perioperative guidance (2023–2025); RASS (Sessler et al.).
+  </div>
+
+</div>
+</body>
+</html>
