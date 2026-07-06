@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Approach to Shock — Pocket Card</title>
+<style>
+  :root{
+    --bg:#eef2f6; --panel:#ffffff; --panel2:#f4f7fa;
+    --ink:#16283a; --sub:#5c7285; --line:#d5dee7;
+    --navy:#1d5a97; --teal:#0f7d84; --gold:#a9761a; --red:#c23b3b; --green:#2f8f5b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:12px;line-height:1.28;-webkit-text-size-adjust:100%;}
+  .wrap{max-width:940px;margin:0 auto;padding:8px;}
+  header{background:linear-gradient(135deg,#1d5a97,#123a63);border:1px solid #123a63;
+    border-radius:10px;padding:8px 12px;margin-bottom:8px;}
+  header h1{margin:0;font-size:16px;letter-spacing:.3px;color:#fff;}
+  header .sub{color:#cfe0f0;font-size:11px;margin-top:1px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:8px 10px;box-shadow:0 1px 3px rgba(20,40,60,.06);margin-bottom:8px;}
+  .pack{column-count:2;column-gap:8px;}
+  @media(max-width:640px){.pack{column-count:1;}}
+  .pack .card{display:inline-block;width:100%;
+    break-inside:avoid;-webkit-column-break-inside:avoid;}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start;}
+  @media(max-width:640px){.duo{grid-template-columns:1fr;}}
+  .duo .card{margin-bottom:8px;}
+  .card h2{margin:0 0 5px;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;
+    display:flex;align-items:center;gap:6px;color:var(--navy);}
+  .phase{display:flex;align-items:center;gap:8px;margin:6px 2px 0;
+    font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--sub);}
+  .phase::after{content:"";flex:1;height:1px;background:var(--line);}
+  .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .d-navy{background:var(--navy);} .d-teal{background:var(--teal);}
+  .d-gold{background:var(--gold);} .d-red{background:var(--red);} .d-green{background:var(--green);}
+  ul{margin:0;padding-left:15px;} li{margin:1px 0;}
+  b{color:#0c2138;} .mut{color:var(--sub);}
+  .tag{display:inline-block;font-size:9.5px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.4px;padding:1px 6px;border-radius:20px;vertical-align:middle;}
+  .t-gold{background:rgba(224,169,46,.16);color:var(--gold);border:1px solid rgba(224,169,46,.4);}
+  .t-red{background:rgba(225,91,91,.14);color:var(--red);border:1px solid rgba(225,91,91,.4);}
+  .t-teal{background:rgba(15,125,132,.12);color:var(--teal);border:1px solid rgba(15,125,132,.4);}
+
+  /* continuum */
+  .cont{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:2px;}
+  @media(max-width:640px){.cont{grid-template-columns:1fr 1fr;}}
+  .step{border-radius:9px;padding:7px 8px;font-size:10.5px;line-height:1.3;border:1px solid transparent;}
+  .s1{background:rgba(29,90,151,.10);border-color:rgba(29,90,151,.35);}
+  .s2{background:rgba(224,169,46,.15);border-color:var(--gold);}
+  .s3{background:rgba(15,125,132,.12);border-color:rgba(15,125,132,.4);}
+  .s4{background:rgba(225,91,91,.14);border-color:rgba(225,91,91,.4);}
+  .step .lab{display:block;font-weight:700;font-size:11px;margin-bottom:2px;}
+  .step.s1 .lab{color:var(--navy);} .step.s2 .lab{color:var(--gold);}
+  .step.s3 .lab{color:var(--teal);} .step.s4 .lab{color:var(--red);}
+  .step.sg{background:rgba(47,143,91,.13);border-color:rgba(47,143,91,.4);}
+  .step.sg .lab{color:var(--green);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:2px;}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr;}}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:10.5px;table-layout:auto;}
+  th,td{text-align:left;padding:4px 6px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--sub);font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+  td .drug{font-weight:700;color:var(--navy);} td .cls{color:var(--sub);font-size:9.5px;display:block;}
+  .scroll{overflow-x:auto;}
+  .up{color:var(--red);font-weight:700;} .dn{color:var(--navy);font-weight:700;} .eq{color:var(--sub);font-weight:700;}
+  .hemo{font-size:10px;}
+  .hemo th,.hemo td{padding:3px 5px;white-space:normal;}
+  .hemo td:first-child{font-weight:700;color:var(--navy);}
+  @media(max-width:640px){
+    .hemo{font-size:9px;} .hemo th,.hemo td{padding:2px 3px;}
+    table{font-size:9.5px;} th,td{padding:3px 4px;}
+  }
+  .chip{display:inline-block;background:rgba(29,90,151,.1);border:1px solid rgba(29,90,151,.4);
+    color:var(--navy);border-radius:7px;padding:2px 7px;margin:2px 4px 2px 0;font-size:10.5px;}
+  .kv div{margin:1px 0;} .kv b{color:var(--gold);}
+  .foot{color:var(--sub);font-size:9.5px;margin:10px 4px 4px;line-height:1.4;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Approach to Shock</h1>
+    <div class="sub">Recognize → classify → resuscitate → tailor · adult · pocket reference</div>
+  </header>
+
+  <div class="phase">Recognize</div>
+
+  <div class="card full">
+    <h2><span class="dot d-navy"></span>Shock = Circulatory Failure <span class="tag t-red">act before hypotension</span></h2>
+    <div class="mut" style="font-size:11px;">Inadequate tissue perfusion / O₂ delivery relative to demand → anaerobic metabolism &amp; cellular dysfunction. <b>Hypotension is a late sign</b> — compensated shock can have a normal BP.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px;">
+      <div>
+        <div style="font-weight:700;color:var(--navy);font-size:11px;margin-bottom:2px;">Three windows of perfusion</div>
+        <ul>
+          <li><b>Skin</b> — mottling, cap refill &gt; 3 s, cool/clammy (warm in early distributive)</li>
+          <li><b>Kidney</b> — urine output &lt; 0.5 mL/kg/h</li>
+          <li><b>Brain</b> — new agitation, confusion, obtundation</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--navy);font-size:11px;margin-bottom:2px;">Supporting signs</div>
+        <ul>
+          <li><b>Lactate</b> &gt; 2 mmol/L (marker of hypoperfusion + severity)</li>
+          <li>Tachycardia, narrow pulse pressure, ↑ shock index (HR/SBP &gt; 0.9)</li>
+          <li>MAP &lt; 65, SBP &lt; 90, or ↓ &gt; 40 from baseline</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHYSIOLOGY ANCHOR -->
+  <div class="card full">
+    <h2><span class="dot d-navy"></span>Every Intervention Has a Lever</h2>
+    <div class="mut" style="font-size:11.5px;"><b>MAP = CO × SVR</b> &nbsp;·&nbsp; <b>CO = HR × SV</b> &nbsp;·&nbsp; <b>SV = preload · contractility · afterload</b></div>
+    <div class="mut" style="margin-top:5px;font-size:10.5px;">Fluids → <b>preload</b> · inotropes → <b>contractility</b> · rate/rhythm control → <b>HR</b> · vasopressors → <b>SVR</b> · relieve obstruction → restores <b>filling/output</b>. Name the low variable, pull that lever.</div>
+  </div>
+
+  <div class="phase">Classify — the four mechanisms</div>
+
+  <div class="card full">
+    <h2><span class="dot d-gold"></span>Four Types <span class="tag t-teal">mixed shock is common</span></h2>
+    <div class="cont">
+      <div class="step s1"><span class="lab">Hypovolemic</span>↓ preload — volume loss. Hemorrhage, GI losses, burns, DKA, third-spacing.</div>
+      <div class="step s2"><span class="lab">Cardiogenic</span>Pump failure. MI, arrhythmia, decompensated HF, valve/mechanical, myocarditis.</div>
+      <div class="step s3"><span class="lab">Distributive</span>↓ SVR — vasodilation. <b>Sepsis (most common)</b>, anaphylaxis, neurogenic, adrenal.</div>
+      <div class="step s4"><span class="lab">Obstructive</span>Mechanical block to filling/output. Tension PTX, tamponade, massive PE, auto-PEEP.</div>
+    </div>
+    <div class="mut" style="margin-top:6px;font-size:10.5px;">Patients often have &gt; 1 mechanism (e.g., septic + cardiogenic, or hemorrhage + obstruction). Re-classify as data returns.</div>
+  </div>
+
+  <!-- ATLS HEMORRHAGIC CLASSES -->
+  <div class="card full">
+    <h2><span class="dot d-navy"></span>Hemorrhagic Shock — ATLS Classes <span class="tag t-red">blood-loss severity</span></h2>
+    <div class="scroll">
+    <table class="hemo">
+      <tr><th>Class</th><th>Blood loss</th><th>HR</th><th>BP</th><th>Pulse<br>pressure</th><th>RR</th><th>Urine<br>(mL/h)</th><th>Mental status</th><th>Resuscitation</th></tr>
+      <tr><td>I</td><td>&lt; 15% (&lt; 750 mL)</td><td>&lt; 100</td><td>Normal</td><td>Normal</td><td>14–20</td><td>&gt; 30</td><td>Slightly anxious</td><td>Crystalloid</td></tr>
+      <tr><td>II — mild</td><td>15–30% (750–1500)</td><td>100–120</td><td>Normal</td><td><span class="dn">↓</span></td><td>20–30</td><td>20–30</td><td>Mildly anxious</td><td>Crystalloid ± blood</td></tr>
+      <tr><td>III — moderate</td><td>30–40% (1500–2000)</td><td>120–140</td><td><span class="dn">↓</span></td><td><span class="dn">↓</span></td><td>30–40</td><td>5–15</td><td>Anxious, confused</td><td>Crystalloid + blood</td></tr>
+      <tr><td>IV — severe</td><td>&gt; 40% (&gt; 2000)</td><td>&gt; 140</td><td><span class="dn">↓↓</span></td><td><span class="dn">↓</span></td><td>&gt; 35</td><td>Negligible</td><td>Confused, lethargic</td><td>Blood / massive transfusion</td></tr>
+    </table>
+    </div>
+    <div class="mut" style="margin-top:5px;font-size:10px;">~70-kg adult (% of ~5 L blood volume). Tachycardia and a narrowing pulse pressure precede a falling systolic BP — <b>SBP drops late (Class III)</b>. Young/fit patients, athletes, and β-blockade can mask the early classes; pregnancy raises baseline volume.</div>
+  </div>
+
+  <!-- SCAI CARDIOGENIC STAGES -->
+  <div class="card full">
+    <h2><span class="dot d-gold"></span>Cardiogenic Shock — SCAI Stages <span class="tag t-gold">A–E</span></h2>
+    <div class="scroll">
+    <table class="hemo">
+      <tr><th>Stage</th><th>Label</th><th>Bedside</th><th>Labs / hemodynamics</th><th>Support</th></tr>
+      <tr><td>A</td><td>At risk</td><td>Warm, well-perfused; no shock signs</td><td>Normal lactate &amp; end-organ labs</td><td>None — monitor (large MI, decompensated HF)</td></tr>
+      <tr><td>B</td><td>Beginning<br>(pre-shock)</td><td>Hypotension/tachycardia, ↑ JVP; still perfused</td><td>Lactate normal; mild ↑ creatinine</td><td>Volume ± low-dose vasoactive; close watch</td></tr>
+      <tr><td>C</td><td>Classic</td><td>Hypoperfusion — cold, clammy, ↓ UOP, altered</td><td>Lactate ≥ 2; ↑ creatinine/LFTs, BNP</td><td>≥ 1 pressor/inotrope, fluids, or mechanical support</td></tr>
+      <tr><td>D</td><td>Deteriorating</td><td>Worsening despite initial therapy</td><td>Rising lactate; failing end-organs</td><td>Escalating / added support</td></tr>
+      <tr><td>E</td><td>Extremis</td><td>Circulatory collapse ± refractory arrest</td><td>Refractory lactate / severe acidosis</td><td>Maximal support, CPR / ECMO</td></tr>
+    </table>
+    </div>
+    <div class="mut" style="margin-top:5px;font-size:10px;">Append the modifier <b>“(A)”</b> for concurrent cardiac arrest. Stage drives triage, transfer, and prognosis (mortality rises A → E). SCAI SHOCK classification (2019, updated 2022).</div>
+  </div>
+
+  <!-- CARDIOGENIC 2x2 -->
+  <div class="card full">
+    <h2><span class="dot d-gold"></span>Cardiogenic Profiles — Perfusion × Congestion <span class="tag t-teal">Stevenson 2×2</span></h2>
+    <div class="grid2">
+      <div class="step sg"><span class="lab">Warm &amp; Dry</span>Perfused, no congestion — compensated. Optimize oral HF therapy; find the trigger.</div>
+      <div class="step s2"><span class="lab">Warm &amp; Wet</span>Perfused but congested — diurese, vasodilate (nitroglycerin), NIV for pulmonary edema.</div>
+      <div class="step s1"><span class="lab">Cold &amp; Dry</span>Hypoperfused, not congested — cautious fluid challenge / inotrope; exclude hypovolemia / over-diuresis.</div>
+      <div class="step s4"><span class="lab">Cold &amp; Wet ★</span>Hypoperfused + congested — <b>classic cardiogenic shock</b>. Inotrope + diuresis ± vasopressor ± mechanical support.</div>
+    </div>
+    <div class="mut" style="margin-top:6px;font-size:10px;"><b>Perfusion</b> (cold = hypoperfused): narrow pulse pressure, cool extremities, ↓ UOP, altered mentation, ↑ lactate. <b>Congestion</b> (wet = ↑ filling pressures): orthopnea, JVD, rales, edema, lung B-lines.</div>
+  </div>
+
+  <div class="duo">
+    <!-- HEMODYNAMIC PROFILES -->
+    <div class="card">
+      <h2><span class="dot d-navy"></span>Hemodynamic Profiles</h2>
+      <div class="scroll">
+      <table class="hemo">
+        <tr><th>Type</th><th>Preload<br>(CVP/PCWP)</th><th>CO / CI</th><th>SVR</th><th>SvO₂</th></tr>
+        <tr><td>Hypovolemic</td><td><span class="dn">↓</span></td><td><span class="dn">↓</span></td><td><span class="up">↑</span></td><td><span class="dn">↓</span></td></tr>
+        <tr><td>Cardiogenic</td><td><span class="up">↑</span></td><td><span class="dn">↓</span></td><td><span class="up">↑</span></td><td><span class="dn">↓</span></td></tr>
+        <tr><td>Distributive</td><td><span class="eq">↓/↔</span></td><td><span class="up">↑/↔</span></td><td><span class="dn">↓</span></td><td><span class="up">↑*</span></td></tr>
+        <tr><td>Obstructive</td><td><span class="eq">varies</span></td><td><span class="dn">↓</span></td><td><span class="up">↑</span></td><td><span class="dn">↓</span></td></tr>
+      </table>
+      </div>
+      <div class="mut" style="margin-top:5px;font-size:10px;">*High/normal SvO₂ in distributive shock reflects <em>impaired O₂ extraction</em>, not adequate delivery. Obstructive: ↑ right-sided pressures in tamponade / massive PE.</div>
+    </div>
+
+    <!-- POCUS / RUSH -->
+    <div class="card">
+      <h2><span class="dot d-teal"></span>Bedside — RUSH / POCUS</h2>
+      <ul>
+        <li><b>Pump</b> — contractility (hyperdynamic = distributive/hypovolemic; poor = cardiogenic), pericardial effusion/tamponade, RV strain/dilation (PE)</li>
+        <li><b>Tank</b> — IVC (small/collapsing = hypovolemic; plethoric = cardiogenic/obstructive), lung B-lines (edema) or absent lung-sliding (PTX), FAST for free fluid</li>
+        <li><b>Pipes</b> — aorta (AAA / dissection), femoral/popliteal DVT (PE source)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">Resuscitate</div>
+
+  <div class="card full">
+    <h2><span class="dot d-gold"></span>Initial Resuscitation</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div>
+        <ul>
+          <li><b>ABCs</b>; 2 large-bore IVs (± IO / central), O₂, continuous monitor</li>
+          <li><b>Labs</b>: lactate + VBG, CBC, chem, coags, type &amp; screen, cultures if infection; ECG; bedside US</li>
+          <li><b>Target MAP ≥ 65</b> (individualize higher in chronic HTN); resuscitate to <em>perfusion</em>, not a number — lactate clearance, UOP, mentation, cap refill</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><b>Fluids</b> (hypovolemic/distributive): balanced crystalloid boluses; reassess responsiveness after each — <b>don't reflexively give 30 mL/kg</b> to cardiogenic/obstructive</li>
+          <li><b>Cardiogenic / obstructive</b>: fluids can worsen — support the pump / relieve the obstruction instead</li>
+          <li><b>Source control</b>: stop the bleeding, drain/decompress, <b>antibiotics within 1 h</b> for septic shock</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mut" style="margin-top:5px;font-size:10.5px;"><b>Fluid responsiveness</b> (dynamic &gt; static): passive leg raise → ↑ CO ≥ 10%; PPV/SVV &gt; 12% (controlled vent, sinus rhythm, V<sub>T</sub> ≥ 8 mL/kg); IVC variation; a 250–500 mL challenge. ~Half of unstable patients are <em>not</em> fluid-responsive — stop fluids that don't help.</div>
+  </div>
+
+  <!-- WORKUP -->
+  <div class="card full">
+    <h2><span class="dot d-teal"></span>Initial Workup — Send &amp; Why</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><ul>
+        <li><b>Lactate + VBG/ABG</b> — hypoperfusion severity &amp; clearance; acid–base</li>
+        <li><b>CBC + type &amp; screen/cross</b> — anemia/bleeding; prep for transfusion</li>
+        <li><b>Chem / creatinine, LFTs</b> — end-organ perfusion (kidney, liver)</li>
+        <li><b>Coags ± fibrinogen</b> — coagulopathy / DIC</li>
+      </ul></div>
+      <div><ul>
+        <li><b>Troponin, BNP, ECG</b> — ischemia / cardiogenic / arrhythmia</li>
+        <li><b>Cultures</b> (blood ×2, urine, source) before antibiotics if feasible</li>
+        <li><b>ScvO₂</b> (central line) — global O₂ supply–demand balance</li>
+        <li><b>Cortisol</b> if adrenal crisis suspected · β-hCG · POCUS/CT for source</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="phase">Vasopressors &amp; inotropes</div>
+
+  <div class="card full">
+    <h2><span class="dot d-red"></span>Vasopressors &amp; Inotropes — Adult IV</h2>
+    <div class="mut" style="font-size:10.5px;margin-bottom:5px;">Titrate to MAP ≥ 65. Start once fluids inadequate (or immediately in profound shock / cardiogenic). Central access preferred; norepinephrine may run peripherally short-term through a good proximal line. Doses are typical ranges — verify locally.</div>
+    <div class="scroll">
+    <table>
+      <tr><th>Agent</th><th>Dose</th><th>Mechanism</th><th>First-line use</th><th>Cautions</th></tr>
+      <tr>
+        <td><span class="drug">Norepinephrine</span><span class="cls">α₁ &gt; β₁</span></td>
+        <td>0.01–0.5 mcg/kg/min (up to ~1–3 refractory)</td>
+        <td>Vasoconstriction, mild inotropy</td>
+        <td><b>First-line</b> for septic &amp; most undifferentiated shock</td>
+        <td>Arrhythmia, digital/mesenteric ischemia at high dose</td>
+      </tr>
+      <tr>
+        <td><span class="drug">Vasopressin</span><span class="cls">V₁ receptor</span></td>
+        <td>Fixed 0.03 U/min (up to 0.04) — <em>not titrated</em></td>
+        <td>Non-catecholamine vasoconstriction</td>
+        <td>Add-on to norepi in septic shock (catecholamine-sparing)</td>
+        <td>Ischemia; not a sole first-line agent</td>
+      </tr>
+      <tr>
+        <td><span class="drug">Epinephrine</span><span class="cls">α + β</span></td>
+        <td>0.01–0.5 mcg/kg/min; <b>anaphylaxis IM 0.3–0.5 mg</b></td>
+        <td>Vasoconstriction + strong inotropy/chronotropy</td>
+        <td><b>Anaphylaxis</b> (first-line); 2nd-line septic; cardiogenic with low CO</td>
+        <td>Tachyarrhythmia, ↑ lactate, ↑ myocardial O₂ demand</td>
+      </tr>
+      <tr>
+        <td><span class="drug">Phenylephrine</span><span class="cls">pure α₁</span></td>
+        <td>0.5–5 mcg/kg/min (bolus 50–200 mcg)</td>
+        <td>Pure vasoconstriction (no β)</td>
+        <td>Tachyarrhythmia/AF where β undesired; transient hypotension</td>
+        <td>Reflex bradycardia, ↓ CO — avoid in cardiogenic</td>
+      </tr>
+      <tr>
+        <td><span class="drug">Dopamine</span><span class="cls">dose-dependent</span></td>
+        <td>5–20 mcg/kg/min</td>
+        <td>β (mid) → α (high); dopaminergic (low)</td>
+        <td>Rarely first-line; option in bradycardia + hypotension</td>
+        <td>More arrhythmia &amp; ↑ mortality vs norepi in shock (SOAP II)</td>
+      </tr>
+      <tr>
+        <td><span class="drug">Dobutamine</span><span class="cls">β₁ inotrope</span></td>
+        <td>2–20 mcg/kg/min</td>
+        <td>Inotropy + mild vasodilation (↑ CO, ↓ SVR)</td>
+        <td>Cardiogenic / low-CO states (usually + norepi for MAP)</td>
+        <td>Hypotension, tachyarrhythmia; ↑ myocardial O₂ demand</td>
+      </tr>
+      <tr>
+        <td><span class="drug">Milrinone</span><span class="cls">PDE-3 inodilator</span></td>
+        <td>0.125–0.75 mcg/kg/min (± load 50 mcg/kg)</td>
+        <td>Inotropy + vasodilation, independent of β-receptor</td>
+        <td>Cardiogenic, esp. RV failure or patient on β-blocker</td>
+        <td>Hypotension; renally cleared → accumulates in AKI; arrhythmia</td>
+      </tr>
+      <tr>
+        <td><span class="drug">Angiotensin II</span><span class="cls">AT₁ receptor</span></td>
+        <td>Start 20 ng/kg/min, titrate</td>
+        <td>Non-catecholamine vasoconstriction (RAAS)</td>
+        <td>Adjunct in refractory vasodilatory (distributive) shock</td>
+        <td>Thrombosis → give VTE prophylaxis; cost</td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+  <!-- PRESSOR ACCESS -->
+  <div class="card full">
+    <h2><span class="dot d-red"></span>Pressor Access — Practical Notes</h2>
+    <ul>
+      <li><b>Don't delay pressors for a central line</b> — norepinephrine runs safely peripherally short-term through a large, proximal (antecubital or above), freely-flowing IV; place central access when able</li>
+      <li><b>Extravasation</b> (vasopressor into tissue) → stop the infusion, aspirate, elevate; antidote <b>phentolamine 5–10 mg</b> injected around the site (or topical nitroglycerin / terbutaline)</li>
+      <li><b>Arterial line</b> for beat-to-beat pressure once on pressors — cuffs under-read at low flow</li>
+      <li>Titrate to MAP ≥ 65; wean the last-added agent first as perfusion recovers</li>
+    </ul>
+  </div>
+
+  <div class="phase">Type-specific management</div>
+
+  <div class="pack">
+    <div class="card">
+      <h2><span class="dot d-navy"></span>Hypovolemic / Hemorrhagic</h2>
+      <ul>
+        <li><b>Stop the loss</b> — control bleeding (pressure, tourniquet, endoscopy, IR, OR)</li>
+        <li>Hemorrhage → <b>blood products</b>, balanced 1:1:1 (RBC:FFP:plt) massive transfusion; limit crystalloid (dilutional coagulopathy)</li>
+        <li><b>TXA</b> within 3 h of trauma; correct coagulopathy; warm the patient (avoid lethal triad)</li>
+        <li>Trauma pre-control: <em>permissive hypotension</em> (SBP ~80–90) unless TBI</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot d-gold"></span>Cardiogenic</h2>
+      <ul>
+        <li><b>Revascularize</b> — STEMI/ischemia → emergent cath; treat arrhythmia</li>
+        <li>Support: <b>norepi</b> for MAP + <b>inotrope</b> (dobutamine/milrinone) for CO</li>
+        <li>Cautious fluids; <b>diurese</b> if congested; NIV for pulmonary edema</li>
+        <li>Refractory → <b>mechanical support</b> (IABP / Impella / VA-ECMO); cardiology + shock team</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot d-teal"></span>Distributive — Septic</h2>
+      <ul>
+        <li><b>Antibiotics &lt; 1 h</b> + cultures + <b>source control</b></li>
+        <li>Balanced crystalloid, reassessing responsiveness; <b>norepi first</b>, add <b>vasopressin</b></li>
+        <li>Refractory → <b>hydrocortisone</b> 200 mg/day; consider angiotensin II</li>
+        <li>Track <b>lactate clearance</b> and perfusion; avoid over-resuscitation</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot d-red"></span>Distributive — Anaphylaxis / Neurogenic</h2>
+      <ul>
+        <li><b>Anaphylaxis</b> → <b>IM epinephrine 0.3–0.5 mg</b> (repeat q5–15 min), fluids, epi infusion if refractory; adjunct antihistamines/steroids/albuterol</li>
+        <li><b>Neurogenic</b> (spinal cord) → fluids + vasopressor (norepi/phenylephrine); <b>atropine</b> for symptomatic bradycardia; maintain spinal perfusion</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot d-red"></span>Obstructive</h2>
+      <ul>
+        <li><b>Tension pneumothorax</b> → immediate needle/finger thoracostomy, then chest tube</li>
+        <li><b>Cardiac tamponade</b> → pericardiocentesis (± echo guidance)</li>
+        <li><b>Massive PE</b> → systemic thrombolysis / catheter or surgical embolectomy; ECMO if arrest</li>
+        <li><b>Auto-PEEP</b> in the vented patient → disconnect circuit, let the chest empty, then resume slow</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot d-teal"></span>Adrenal / Endocrine</h2>
+      <ul>
+        <li><b>Adrenal crisis</b> — refractory hypotension + hyponatremia / hyperkalemia / hypoglycemia; steroid-dependent, withdrawn, or stressed. <b>Hydrocortisone 100 mg IV</b> then 200 mg/day — don't wait for cortisol</li>
+        <li><b>Myxedema coma</b> → IV levothyroxine + <b>hydrocortisone first</b> (cover concurrent adrenal insufficiency)</li>
+        <li><b>Thyroid storm</b> → β-blocker, thionamide, iodine (after thionamide), hydrocortisone</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot d-green"></span>Endpoints &amp; Monitoring</h2>
+      <ul>
+        <li><b>MAP ≥ 65</b>; <b>lactate clearance</b> (&gt; 10% / 2 h, trend to normal)</li>
+        <li><b>UOP ≥ 0.5 mL/kg/h</b>; improving mentation &amp; cap refill; ScvO₂ ≥ 70%</li>
+        <li>Reassess fluid responsiveness before each bolus; <b>de-escalate</b> pressors/fluids once perfusion restored</li>
+        <li>Re-image / re-examine if not improving — look for missed or second mechanism</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">Refractory — reassess</div>
+
+  <div class="card full">
+    <h2><span class="dot d-red"></span>Not Responding? Think Again <span class="tag t-red">high-yield</span></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><ul>
+        <li><b>Occult hemorrhage</b> — chest / abdomen / pelvis / retroperitoneum / GI; re-scan, recheck Hgb</li>
+        <li><b>Missed obstruction</b> — tamponade, tension PTX, massive PE, <b>auto-PEEP</b> (disconnect the vent)</li>
+        <li><b>Adrenal crisis</b> — empiric hydrocortisone 100 mg</li>
+        <li><b>Severe acidosis</b> — blunts catecholamine response; treat the cause</li>
+      </ul></div>
+      <div><ul>
+        <li><b>Hypocalcemia</b> (esp. after massive transfusion) — replace calcium</li>
+        <li><b>Drug tox</b> — β-blocker / CCB overdose → <b>glucagon, high-dose insulin (HIET)</b>, calcium; local-anesthetic → lipid emulsion</li>
+        <li><b>Wrong / mixed diagnosis</b> — re-POCUS, reconsider the shock type</li>
+        <li><b>Under-treated anaphylaxis</b> — IM epinephrine, not just antihistamine</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b style="color:var(--red)">Don't be fooled:</b> a normal blood pressure does not exclude shock (compensated) · treat perfusion, not the number · mixed shock is the rule in the sick · over-resuscitation with fluid causes harm · reassess the mechanism as data returns.<br><br>
+    Educational quick-reference for credentialed clinicians — not a substitute for institutional protocols, full prescribing information, or clinical judgment. Doses are standard adult ranges; verify weight-based and organ-function adjustments locally.
+    Sources: Surviving Sepsis Campaign (2021); ACC/AHA &amp; SCAI cardiogenic-shock statements; SOAP II (dopamine vs norepinephrine); ATLS (hemorrhagic shock); RUSH protocol (Perera et al.).
+  </div>
+
+</div>
+</body>
+</html>
