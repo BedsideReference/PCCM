@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PFT Interpretation — 2022 ERS/ATS Technical Standard</title>
+<style>
+  :root{
+    --bg:#eef2f6; --panel:#ffffff; --ink:#16283a; --sub:#5c7285; --line:#d5dee7;
+    --navy:#1d5a97; --teal:#0f7d84; --gold:#a9761a; --red:#c23b3b; --green:#2f8f5b; --violet:#6a4a9c;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;}
+  .wrap{max-width:1040px;margin:0 auto;padding:14px;}
+  header.top{background:linear-gradient(135deg,#1d5a97,#123a63);color:#fff;border-radius:12px;padding:18px 22px;}
+  header.top h1{margin:0;font-size:23px;letter-spacing:.2px;}
+  header.top .sub{color:#cfe0f0;font-size:13px;margin-top:4px;}
+  header.top .cite{color:#a9c6e4;font-size:11.5px;margin-top:8px;font-style:italic;}
+
+  nav.toc{position:sticky;top:0;z-index:5;background:rgba(238,242,246,.95);backdrop-filter:blur(4px);
+    border-bottom:1px solid var(--line);padding:8px 4px;margin:10px 0 4px;display:flex;flex-wrap:wrap;gap:6px;}
+  nav.toc a{font-size:11.5px;text-decoration:none;color:var(--navy);border:1px solid var(--line);
+    background:#fff;border-radius:20px;padding:3px 10px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--navy);color:#fff;}
+
+  section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;
+    box-shadow:0 1px 3px rgba(20,40,60,.05);scroll-margin-top:52px;}
+  h2{margin:0 0 4px;font-size:17px;color:var(--navy);display:flex;align-items:center;gap:9px;}
+  h2 .n{background:var(--navy);color:#fff;font-size:11px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;
+    display:inline-flex;align-items:center;justify-content:center;flex:none;}
+  h2.teal{color:var(--teal);} h2.teal .n{background:var(--teal);}
+  h2.gold{color:var(--gold);} h2.gold .n{background:var(--gold);}
+  h2.red{color:var(--red);} h2.red .n{background:var(--red);}
+  h2.violet{color:var(--violet);} h2.violet .n{background:var(--violet);}
+  .lead{color:var(--sub);font-size:13px;margin:0 0 12px;}
+  p{margin:8px 0;} h4{margin:10px 0 3px;color:var(--navy);font-size:13.5px;}
+  ul{margin:6px 0;padding-left:18px;} li{margin:3px 0;}
+  b{color:#0c2138;} .k{font-weight:700;color:var(--navy);}
+
+  .changes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
+  @media(max-width:720px){.changes{grid-template-columns:1fr;}}
+  .change{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:10px 12px;background:#fbf8f1;font-size:12.5px;}
+  .change b{color:var(--navy);}
+  .old{color:var(--red);text-decoration:line-through;} .new{color:var(--green);font-weight:700;}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top;}
+  th{background:var(--navy);color:#fff;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;}
+  tbody td:first-child{background:#eef4fa;font-weight:700;color:var(--navy);}
+  table.zebra tr:nth-child(even) td{background:#f7fafc;}
+  table.zebra tr:nth-child(even) td:first-child{background:#e7eff7;}
+  .sec-head{background:var(--teal)!important;color:#fff;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.4px;}
+
+  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px;}
+  @media(max-width:720px){.grades{grid-template-columns:1fr;}}
+  .grade{border-radius:9px;padding:10px 12px;border:1px solid var(--line);}
+  .grade .z{font-size:18px;font-weight:800;}
+  .g1{background:rgba(47,143,91,.10);} .g1 .z{color:var(--green);}
+  .g2{background:rgba(169,118,26,.12);} .g2 .z{color:var(--gold);}
+  .g3{background:rgba(194,59,59,.10);} .g3 .z{color:var(--red);}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:720px){.two{grid-template-columns:1fr;}}
+
+  figure{margin:12px 0 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fafcfd;}
+  figure img{width:100%;display:block;}
+  figcaption{font-size:11px;color:var(--sub);padding:6px 10px;line-height:1.4;}
+  figcaption b{color:var(--ink);}
+
+  .pearl{border:1px solid var(--line);border-left:4px solid var(--teal);background:#f2fbfb;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:12.5px;}
+  .pearl b{color:var(--teal);}
+  .hy{border:1.5px solid var(--gold);background:#fbf6ea;border-radius:10px;padding:12px 14px;margin-top:12px;}
+  .hy .tag{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:800;
+    letter-spacing:.6px;text-transform:uppercase;padding:2px 9px;border-radius:20px;vertical-align:middle;}
+  .hy h4{margin:8px 0 4px;color:var(--gold);font-size:14.5px;}
+  .hy ul{margin:4px 0 0;} .hy li{font-size:12.5px;}
+  .foot{color:var(--sub);font-size:11px;line-height:1.5;margin:14px 4px;}
+  .foot em{font-style:italic;}
+  .abbr{font-size:11.5px;color:var(--sub);line-height:1.6;}
+  code{background:#eef4fa;border-radius:3px;padding:0 4px;font-family:Consolas,monospace;font-size:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>Pulmonary Function Test Interpretation</h1>
+    <div class="sub">ERS/ATS 2022 technical standard on interpretive strategies for routine lung function tests · pulmonologist reference</div>
+    <div class="cite">Stanojevic S, Kaminsky DA, Miller MR, et al. ERS/ATS technical standard on interpretive strategies for routine lung function tests. <i>Eur Respir J</i> 2022; 60: 2101499 (doi:10.1183/13993003.01499-2021). Figures © ERS/ATS, reproduced for personal educational use.</div>
+  </header>
+
+  <nav class="toc">
+    <a href="#new">What's new</a>
+    <a href="#refs">Reference values</a>
+    <a href="#severity">Severity</a>
+    <a href="#spiro">Spirometry</a>
+    <a href="#loops">Flow–volume</a>
+    <a href="#bdr">Bronchodilator</a>
+    <a href="#volumes">Lung volumes</a>
+    <a href="#dlco">DLCO</a>
+    <a href="#change">Change over time</a>
+    <a href="#advanced">Advanced pearls</a>
+    <a href="#integrate">Integration</a>
+  </nav>
+
+  <!-- WHAT'S NEW -->
+  <section id="new">
+    <h2><span class="n">NEW</span>What changed from the 2005 standard</h2>
+    <p class="lead">Interpretation has three tasks: (1) classify a value as normal vs abnormal relative to a healthy population, (2) translate abnormalities into a physiological pattern, (3) integrate with clinical data. This standard covers (1) and (2). The headline shift: <b>away from % predicted and fixed cut-offs, toward z-scores and the LLN</b> derived from GLI reference equations.</p>
+    <div class="changes">
+      <div class="change"><b>Reference equations.</b> <span class="new">GLI equations</span> for spirometry, lung volumes and DLCO (replacing NHANES III / no-equation defaults).</div>
+      <div class="change"><b>Normal range.</b> Define abnormal by <span class="new">LLN = 5th percentile</span> (z = −1.645). <span class="old">FEV₁/FVC &lt;0.70</span> and <span class="old">&lt;80% predicted</span> no longer recommended.</div>
+      <div class="change"><b>Bronchodilator response.</b> <span class="new">&gt;10% change relative to the predicted value</span> (FEV₁ or FVC) — replaces <span class="old">≥12% and 200 mL from baseline</span>.</div>
+      <div class="change"><b>Severity grading.</b> Grade by <span class="new">z-score</span> across all indices (legacy FEV₁ %-predicted bands retained as alternative).</div>
+      <div class="change"><b>Race/ethnicity.</b> Moves away from race-specific equations. <b>Update — ATS/ERS 2023:</b> a subsequent official statement recommends <span class="new">race-neutral GLI Global</span> spirometry equations; switching reclassifies a meaningful number of Black and SE-Asian patients (more obstruction/air trapping detected). Avoid embedding race as biology; interpret in clinical context.</div>
+      <div class="change"><b>Biological sex.</b> Use <b>biological sex, not gender</b>, to select reference equations.</div>
+    </div>
+  </section>
+
+  <!-- REFERENCE VALUES -->
+  <section id="refs">
+    <h2 class="teal"><span class="n">Ref</span>Reference values &amp; the normal range</h2>
+    <p class="lead">A measured value is interpreted against the distribution of healthy people of the same age, height and biological sex. The z-score expresses how many SDs a value sits from the predicted mean; the LLN (5th percentile) corresponds to z = −1.645.</p>
+    <div class="two">
+      <div>
+        <h4>Why z-score, not % predicted</h4>
+        <ul>
+          <li><b>% predicted</b> ignores that variability differs by age, height and index — a flat "80%" over- or under-calls abnormality depending on the person.</li>
+          <li><b>z-score</b> accounts for the age-/height-specific scatter, so a single threshold (−1.645 = LLN) applies uniformly.</li>
+          <li>LLN = 5th percentile ⇒ ~5% of healthy people fall below by definition (interpret near-threshold values cautiously — the "zone of uncertainty").</li>
+        </ul>
+      </div>
+      <div>
+        <h4>GLI equations &amp; the race-neutral shift</h4>
+        <ul>
+          <li>The 2022 standard used population-specific GLI groups (White, Black, SE-Asian, NE-Asian) plus a <b>"Multi-ethnic"</b> average.</li>
+          <li><b>Current best practice (ATS/ERS 2023 statement):</b> use <b>race-neutral GLI Global</b> spirometry equations — race/ethnicity is a social construct poorly correlated with lung physiology, and race-specific equations can under-diagnose disease in Black and other groups.</li>
+          <li>Switching to GLI Global detects <b>more obstruction/air trapping</b> in previously race-adjusted groups; always document which equation the lab uses. (Validated race-neutral equations for lung volumes/DLCO are less established.)</li>
+        </ul>
+      </div>
+    </div>
+    <figure><img src="pft_figs/fig02.png" alt="z-scores and percentiles normal distribution"><figcaption><b>Figure 2.</b> The normal distribution with z-scores and percentiles. LLN (5th percentile) = z −1.645; ULN (95th) = z +1.645.</figcaption></figure>
+    <figure><img src="pft_figs/fig04.png" alt="FEV1/FVC LLN vs fixed 0.7"><figcaption><b>Figure 4.</b> FEV₁/FVC predicted and its LLN (5th percentile) vs the fixed 0.70 cut-off. The fixed ratio <b>under-diagnoses obstruction in the young and over-diagnoses in the elderly</b> — hence the move to the LLN.</figcaption></figure>
+  </section>
+
+  <!-- SEVERITY -->
+  <section id="severity">
+    <h2 class="gold"><span class="n">Sev</span>Grading severity of impairment</h2>
+    <p class="lead">Preferred approach: grade by <b>z-score</b>, applied to any index (obstruction or restriction). Legacy FEV₁ %-predicted bands and a DLCO scheme are retained as alternatives.</p>
+    <div class="grades">
+      <div class="grade g1"><div class="z">Mild</div>z −1.65 to −2.5</div>
+      <div class="grade g2"><div class="z">Moderate</div>z −2.51 to −4.0</div>
+      <div class="grade g3"><div class="z">Severe</div>z &lt; −4.1</div>
+    </div>
+    <div class="two" style="margin-top:12px;">
+      <div>
+        <h4>Legacy FEV₁ (% predicted)</h4>
+        <ul>
+          <li>Mild &gt;70% · Moderate 60–69% · Moderate–severe 50–59% · Severe 35–49% · Very severe &lt;35%</li>
+        </ul>
+      </div>
+      <div>
+        <h4>DLCO (% predicted)</h4>
+        <ul>
+          <li>Mild &gt;60% and &lt;LLN · Moderate 40–60% · Severe &lt;40%</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pearl"><b>Pearl.</b> Severity is graded on the index that defines the impairment (e.g. FEV₁ for obstruction, TLC or FVC for restriction, DLCO for gas transfer) — not on the FEV₁/FVC ratio itself.</div>
+  </section>
+
+  <!-- SPIROMETRY -->
+  <section id="spiro">
+    <h2><span class="n">Spi</span>Spirometry — patterns</h2>
+    <p class="lead">Start with FEV₁/FVC (use the largest VC), then FVC. Ratio and FVC together sort patients into normal, obstruction, possible restriction/non-specific, or possible mixed — the last two need lung volumes to resolve.</p>
+    <table class="zebra">
+      <tr><th>Pattern</th><th>Spirometry signature</th><th>Interpretation</th></tr>
+      <tr><td>Obstruction</td><td>FEV₁/FVC (or VC) &lt; LLN</td><td>Airflow obstruction. Grade by FEV₁ z-score. Do <b>not</b> use fixed 0.70 or GOLD ratio.</td></tr>
+      <tr><td>Possible restriction / non-specific</td><td>Normal FEV₁/FVC, <b>low FVC</b></td><td>Confirm with TLC. If TLC normal → <b>non-specific pattern</b> (obesity, air trapping, submaximal effort, neuromuscular).</td></tr>
+      <tr><td>Restriction</td><td>Low FVC, normal/high ratio, convex flow–volume curve</td><td>Suspected on spirometry but <b>confirmed only by TLC &lt; LLN</b> — reduced FVC predicts low TLC &lt;50% of the time.</td></tr>
+      <tr><td>Mixed</td><td>Low FEV₁/FVC <b>and</b> low FVC</td><td>Possible mixed disorder → needs lung volumes (TLC) to confirm coexisting restriction.</td></tr>
+      <tr><td>PRISm</td><td>Low FEV₁, <b>normal</b> FEV₁/FVC (preserved ratio impaired spirometry)</td><td>See high-yield box below.</td></tr>
+    </table>
+
+    <div class="hy">
+      <span class="tag">High yield</span> <b style="color:var(--gold);font-size:14px;">PRISm — preserved ratio impaired spirometry</b>
+      <h4>Definition</h4>
+      <p style="margin:2px 0;font-size:12.5px;">FEV₁ &lt; LLN <b>with a preserved FEV₁/FVC (≥ LLN)</b>. A spirometry-only label — <b>not</b> a diagnosis. Prevalence ~7–12% of adults; more common with obesity and current/former smoking.</p>
+      <h4>Why it matters</h4>
+      <ul>
+        <li><b>Not benign:</b> associated with more respiratory symptoms, higher all-cause and cardiovascular mortality, and comorbidity.</li>
+        <li><b>Unstable phenotype:</b> on follow-up a substantial subset transitions to <b>overt obstruction (COPD)</b>, others to a restrictive pattern, and some normalise — so <b>repeat spirometry</b>.</li>
+        <li><b>Always characterise further:</b> full lung volumes + DLCO sort the drivers — true restriction (low TLC: obesity, ILD, neuromuscular/chest-wall) vs early airway disease/air trapping vs submaximal effort.</li>
+      </ul>
+      <p style="margin:6px 0 0;font-size:12px;color:var(--sub);">Overlaps with the "non-specific pattern," but PRISm is defined on FEV₁ + ratio at spirometry, before volumes are known.</p>
+    </div>
+
+    <figure><img src="pft_figs/fig08.png" alt="Spirometry interpretation algorithm"><figcaption><b>Figure 8.</b> Spirometry interpretation. FEV₁/FVC &gt; 5th percentile? then FVC &gt; 5th percentile? → normal, possible restriction/non-specific, airflow obstruction, or possible mixed disorder (→ lung volumes).</figcaption></figure>
+  </section>
+
+  <!-- FLOW VOLUME LOOPS -->
+  <section id="loops">
+    <h2 class="teal"><span class="n">F–V</span>Flow–volume loop morphology</h2>
+    <p class="lead">Loop shape rapidly flags the pattern and effort quality before numbers are read.</p>
+    <ul>
+      <li><span class="k">Obstruction:</span> coved/concave (scooped) expiratory limb; reduced peak flow; the more concave, the more small-airway involvement.</li>
+      <li><span class="k">Restriction:</span> tall, narrow loop with preserved/high peak flow but reduced volume (convex expiratory limb reflecting high elastic recoil).</li>
+      <li><span class="k">Variable intrathoracic upper-airway obstruction:</span> expiratory plateau. <span class="k">Variable extrathoracic:</span> inspiratory plateau. <span class="k">Fixed:</span> plateau on both limbs.</li>
+      <li><span class="k">Poor effort / submaximal:</span> non-reproducible, rounded, or truncated loops.</li>
+    </ul>
+    <figure><img src="pft_figs/fig09.png" alt="flow volume loop configurations"><figcaption><b>Figure 9.</b> Typical flow–volume loop configurations — normal, mild–moderate and severe obstruction, restriction, and upper-airway obstruction patterns.</figcaption></figure>
+  </section>
+
+  <!-- BRONCHODILATOR -->
+  <section id="bdr">
+    <h2 class="gold"><span class="n">BDR</span>Bronchodilator responsiveness</h2>
+    <p class="lead">New 2022 definition removes the baseline-dependent bias of the old rule.</p>
+    <div class="two">
+      <div>
+        <h4>Definition</h4>
+        <p>A <b>positive response = change &gt;10% relative to the predicted value</b> for FEV₁ <em>or</em> FVC.</p>
+        <p style="font-size:12.5px;"><code>%change = (post − pre) / predicted × 100</code></p>
+        <p style="font-size:12.5px;color:var(--sub);">Replaces the old "≥12% <b>and</b> ≥200 mL from baseline," which over-called responses in people with low baselines and under-called them in large lungs.</p>
+      </div>
+      <div>
+        <h4>Interpretation caveats</h4>
+        <ul>
+          <li>BDR is a <b>continuum</b> — avoid over-reliance on the strict cut-off (same zone-of-uncertainty problem as any threshold).</li>
+          <li>A negative test does <b>not</b> exclude asthma, nor does a positive test confirm it or exclude COPD.</li>
+          <li>Absence of acute BDR doesn't predict lack of clinical benefit from bronchodilators.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- LUNG VOLUMES -->
+  <section id="volumes">
+    <h2 class="violet"><span class="n">Vol</span>Lung volumes</h2>
+    <p class="lead">TLC is the arbiter of restriction. Plethysmography preferred; compare alveolar volume (V<sub>A</sub>) from the DLCO manoeuvre with plethysmographic TLC — a gap suggests maldistribution/air trapping.</p>
+    <ul>
+      <li><span class="k">Restriction:</span> TLC &lt; LLN (5th percentile) with a normal FEV₁/VC. <b>Simple restriction</b> = low TLC with proportionate FVC; <b>complex restriction</b> = low TLC with disproportionately preserved/low FVC (suggests coexisting airway or neuromuscular process).</li>
+      <li><span class="k">Hyperinflation:</span> elevated TLC. <span class="k">Air trapping:</span> elevated RV and RV/TLC — hallmark of obstruction.</li>
+      <li><span class="k">Mixed:</span> FEV₁/VC and TLC both &lt; LLN.</li>
+      <li><span class="k">Non-specific pattern:</span> low FVC with <b>normal</b> TLC and ratio — often obesity, neuromuscular/chest-wall disease, or submaximal effort.</li>
+    </ul>
+    <figure><img src="pft_figs/fig10.png" alt="lung volume interpretation algorithm"><figcaption><b>Figure 10.</b> Lung-volume interpretation. From TLC: elevated → hyperinflation; &lt; LLN with normal ratio → restriction (simple vs complex); with low ratio → mixed.</figcaption></figure>
+  </section>
+
+  <!-- DLCO -->
+  <section id="dlco">
+    <h2 class="red"><span class="n">DLCO</span>Gas transfer (DLCO / TLCO)</h2>
+    <p class="lead">DLCO reflects the alveolar–capillary membrane, capillary blood volume and haemoglobin. Always <b>correct for Hb (and COHb/back-pressure)</b> before interpreting. Partition a low DLCO with K<sub>CO</sub> (DLCO/V<sub>A</sub>) and V<sub>A</sub>.</p>
+    <table class="zebra">
+      <tr><th>DLCO finding</th><th>K<sub>CO</sub> / V<sub>A</sub> clue</th><th>Typical causes</th></tr>
+      <tr><td>Low DLCO + obstruction</td><td>Low K<sub>CO</sub></td><td>Emphysema (parenchymal destruction).</td></tr>
+      <tr><td>Low DLCO + restriction</td><td>Low K<sub>CO</sub>, low V<sub>A</sub></td><td>ILD / pulmonary fibrosis.</td></tr>
+      <tr><td>Isolated low DLCO (normal spirometry &amp; volumes)</td><td>Low K<sub>CO</sub></td><td>Pulmonary vascular disease (PAH, CTEPH, PVOD), early ILD/emphysema, anaemia.</td></tr>
+      <tr><td>Low DLCO, low V<sub>A</sub>, <b>preserved</b> K<sub>CO</sub></td><td>K<sub>CO</sub> normal/high</td><td>Extrapulmonary restriction (chest wall/neuromuscular), pneumonectomy, poor effort/incomplete breath.</td></tr>
+      <tr><td>High DLCO</td><td>High K<sub>CO</sub></td><td>Asthma, obesity, alveolar haemorrhage, left-to-right shunt, polycythaemia, supine posture.</td></tr>
+    </table>
+    <figure><img src="pft_figs/fig11.png" alt="DLCO interpretation algorithm"><figcaption><b>Figure 11.</b> DLCO interpretation using K<sub>CO</sub> and V<sub>A</sub>. Compare V<sub>A</sub> with plethysmographic TLC to gauge ventilation distribution.</figcaption></figure>
+  </section>
+
+  <!-- CHANGE OVER TIME -->
+  <section id="change">
+    <h2 class="teal"><span class="n">Δt</span>Change over time</h2>
+    <p class="lead">Third interpretive task, applied longitudinally. The standard stresses that a single "meaningful change" threshold is not yet established.</p>
+    <ul>
+      <li>Ideally compare to the patient's <b>own pre-disease baseline</b>; failing that, to the decline expected in healthy peers.</li>
+      <li><b>Accelerated decline predicts poor outcomes regardless of baseline</b> — trend matters as much as absolute value.</li>
+      <li>Change tools differ by group: <b>conditional change score</b> in children; <b>FEV₁Q</b> (FEV₁ over a lower reference value) in adults.</li>
+      <li>Natural within-person variability (day-to-day, week-to-week, year-to-year) is substantial and under-defined — avoid over-interpreting small changes; a relative FVC decline of ~10% is a commonly used disease-progression signal (e.g. fibrotic ILD).</li>
+    </ul>
+  </section>
+
+  <!-- ADVANCED -->
+  <section id="advanced">
+    <h2 class="violet"><span class="n">Adv</span>Pulmonologist pearls &amp; advanced testing</h2>
+    <p class="lead">Beyond the core interpretive algorithm — quality gating, provocation, muscle testing, and pattern traps that change management.</p>
+
+    <h4>Quality first (ATS/ERS 2019) — don't interpret unacceptable data</h4>
+    <ul>
+      <li>Need <b>≥3 acceptable manoeuvres</b>; the two largest FVC values and the two largest FEV₁ values must each agree within <b>150 mL</b> (100 mL if ≤6 yr) for a top (grade A) result.</li>
+      <li>Acceptable effort: good start with <b>back-extrapolated volume &lt;5% of FVC or &lt;100 mL</b> (whichever greater), no cough in the first second, and an end-of-test plateau (≥1 s of no volume change) or forced expiration ≥15 s.</li>
+      <li>Report the <b>largest FVC and largest FEV₁</b> even if from different efforts. A "U" (usable) grade may still inform care.</li>
+    </ul>
+
+    <div class="pearl"><b>Pearl.</b> A "restrictive-looking" low FVC with a poor plateau or short expiratory time is often <b>submaximal effort/early termination</b>, not true restriction — check the volume–time curve before calling restriction.</div>
+
+    <h4>Bronchoprovocation — normal spirometry but asthma suspected</h4>
+    <ul>
+      <li><span class="k">Direct (methacholine):</span> report <b>PD₂₀</b> (delivered dose; ERS 2017 standard favours PD₂₀ over PC₂₀). <b>High sensitivity</b> — a negative test largely excludes current asthma; a positive test is not specific.</li>
+      <li><span class="k">Indirect (mannitol, exercise, eucapnic voluntary hyperpnoea, hypertonic saline):</span> more <b>specific</b> for asthma / exercise-induced bronchoconstriction and track airway inflammation.</li>
+    </ul>
+
+    <h4>Respiratory muscle strength — unexplained restriction, normal parenchyma</h4>
+    <ul>
+      <li><span class="k">MIP/MEP</span> (maximal inspiratory/expiratory pressures) and <span class="k">SNIP</span> (sniff nasal inspiratory pressure).</li>
+      <li><b>Supine FVC fall ≥20%</b> vs upright suggests <b>diaphragmatic weakness</b>.</li>
+      <li>Signature: restriction (low TLC) with <b>preserved/high K<sub>CO</sub></b> and low MIP/MEP — points extrapulmonary, not parenchymal.</li>
+    </ul>
+
+    <h4>Pattern traps</h4>
+    <ul>
+      <li><span class="k">CPFE (combined pulmonary fibrosis + emphysema):</span> emphysematous hyperinflation offsets fibrotic restriction → <b>"pseudonormal" spirometry and lung volumes with a markedly reduced DLCO</b> out of proportion; high pulmonary-hypertension risk. Don't be reassured by normal volumes.</li>
+      <li><span class="k">Volume responders:</span> bronchodilator response can appear as an <b>FVC increase (reduced air trapping) rather than FEV₁</b> — common in COPD; check both.</li>
+      <li><span class="k">K<sub>CO</sub> nuance:</span> K<sub>CO</sub> rises non-linearly as V<sub>A</sub> falls, so a "normal" K<sub>CO</sub> <b>cannot</b> correct a low DLCO at low V<sub>A</sub>; normal/high K<sub>CO</sub> with low V<sub>A</sub> suggests extrapulmonary restriction, pneumonectomy, or incomplete breath.</li>
+      <li><span class="k">Isolated low DLCO</span> (normal spirometry &amp; volumes) → pulmonary vascular disease (PAH/CTEPH/PVOD), anaemia (correct for Hb), or early ILD/emphysema.</li>
+      <li><span class="k">Flow–volume shape:</span> <b>sawtooth</b> oscillations → upper-airway instability (OSA, tracheomalacia); <b>fixed plateau on both limbs</b> → fixed large-airway obstruction.</li>
+    </ul>
+  </section>
+
+  <!-- INTEGRATION -->
+  <section id="integrate">
+    <h2><span class="n">Σ</span>Putting it together — pattern → differential</h2>
+    <p class="lead">Interpretation (task 3) combines the physiological pattern with DLCO and clinical context.</p>
+    <table class="zebra">
+      <tr><th>Physiological pattern</th><th>DLCO</th><th>Leading differential</th></tr>
+      <tr><td>Obstruction</td><td>Low</td><td>Emphysema/COPD; combined pulmonary fibrosis–emphysema.</td></tr>
+      <tr><td>Obstruction</td><td>Normal/high</td><td>Asthma, chronic bronchitis, bronchiectasis, bronchiolitis.</td></tr>
+      <tr><td>Restriction (low TLC)</td><td>Low</td><td>ILD / interstitial fibrosis; sarcoidosis.</td></tr>
+      <tr><td>Restriction (low TLC)</td><td>Normal/high K<sub>CO</sub></td><td>Chest-wall or neuromuscular disease, pleural disease, prior resection.</td></tr>
+      <tr><td>Non-specific (low FVC, normal TLC &amp; ratio)</td><td>Variable</td><td>Obesity, early airway disease, neuromuscular, submaximal effort.</td></tr>
+      <tr><td>Normal spirometry + isolated low DLCO</td><td>Low</td><td>Pulmonary vascular disease (PAH/CTEPH/PVOD), anaemia, early parenchymal disease.</td></tr>
+    </table>
+    <div class="pearl"><b>Workflow recap.</b> (1) Technically acceptable test? → (2) FEV₁/FVC vs LLN → (3) FVC → (4) TLC to confirm restriction/mixed → (5) DLCO with Hb correction, partitioned by K<sub>CO</sub>/V<sub>A</sub> → (6) grade severity by z-score → (7) integrate with history, imaging and trend.</div>
+  </section>
+
+  <section>
+    <div class="abbr"><b>Abbreviations:</b> FEV₁ forced expiratory volume in 1 s · FVC forced vital capacity · VC vital capacity · TLC total lung capacity · RV residual volume · DLCO (TLCO) diffusing capacity/transfer factor for CO · K<sub>CO</sub> transfer coefficient (DLCO/V<sub>A</sub>) · V<sub>A</sub> alveolar volume · LLN/ULN lower/upper limit of normal (5th/95th percentile) · GLI Global Lung Function Initiative · BDR bronchodilator responsiveness · PRISm preserved ratio impaired spirometry · Hb haemoglobin · COHb carboxyhaemoglobin · PAH pulmonary arterial hypertension · CTEPH chronic thromboembolic PH · PVOD pulmonary veno-occlusive disease · ILD interstitial lung disease.</div>
+  </section>
+
+  <div class="foot">
+    <em>Personal study reference — not a substitute for the full standard or clinical judgement; laboratories should confirm reference equations and reporting locally. Content and figures from Stanojevic S, Kaminsky DA, Miller MR, et al. "ERS/ATS technical standard on interpretive strategies for routine lung function tests," European Respiratory Journal 2022; 60: 2101499. Figures © ERS/ATS, reproduced for personal educational use only. Differential-diagnosis tables and the "advanced pearls" section reflect standard pulmonary physiology and adjacent standards beyond the source document (ATS/ERS 2019 spirometry standardisation; ERS 2017 bronchial challenge technical standard) — verify specifics locally. Race-neutral update reflects the ATS/ERS 2023 official statement (Bhakta NR, et al. Race and Ethnicity in Pulmonary Function Test Interpretation, <i>Am J Respir Crit Care Med</i> 2023) and the GLI Global spirometry equations — current as of 2026; verify your laboratory's reference equations locally.</em>
+  </div>
+
+</div>
+</body>
+</html>
