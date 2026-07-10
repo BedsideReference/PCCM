@@ -152,7 +152,7 @@ function buildOverview(){
   const dt=deckTrials();
   const domains=[...new Set(dt.map(t=>t.domain))];
   ovEl.innerHTML="";
-  domains.map(d=>[d,dt.filter(t=>t.domain===d).length]).sort((a,b)=>b[1]-a[1]).forEach(([d,n])=>{
+  domains.map(d=>[d,dt.filter(t=>t.domain===d).length]).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([d,n])=>{
     const r=document.createElement("div");r.className="ovrow";
     r.innerHTML=`<span class="dn">${esc(d)}</span><span class="dc">${n}</span>`;
     r.onclick=()=>{activeDomain=d;buildChips();document.getElementById("overview").open=false;window.scrollTo({top:0,behavior:"smooth"});render();};
