@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pulmonary Hypertension — 2022 ESC/ERS Guide</title>
+<style>
+  :root{
+    --bg:#eef2f6; --panel:#ffffff; --ink:#16283a; --sub:#5c7285; --line:#d5dee7;
+    --navy:#1d5a97; --teal:#0f7d84; --gold:#a9761a; --red:#c23b3b; --green:#2f8f5b; --violet:#6a4a9c;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;}
+  .wrap{max-width:1040px;margin:0 auto;padding:14px;}
+  header.top{background:linear-gradient(135deg,#1d5a97,#123a63);color:#fff;border-radius:12px;padding:18px 22px;}
+  header.top h1{margin:0;font-size:23px;letter-spacing:.2px;}
+  header.top .sub{color:#cfe0f0;font-size:13px;margin-top:4px;}
+  header.top .cite{color:#a9c6e4;font-size:11.5px;margin-top:8px;font-style:italic;}
+  nav.toc{position:sticky;top:0;z-index:5;background:rgba(238,242,246,.95);backdrop-filter:blur(4px);
+    border-bottom:1px solid var(--line);padding:8px 4px;margin:10px 0 4px;display:flex;flex-wrap:wrap;gap:6px;}
+  nav.toc a{font-size:11.5px;text-decoration:none;color:var(--navy);border:1px solid var(--line);
+    background:#fff;border-radius:20px;padding:3px 10px;white-space:nowrap;}
+  nav.toc a:hover{background:var(--navy);color:#fff;}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;
+    box-shadow:0 1px 3px rgba(20,40,60,.05);scroll-margin-top:52px;}
+  h2{margin:0 0 4px;font-size:17px;color:var(--navy);display:flex;align-items:center;gap:9px;}
+  h2 .n{background:var(--navy);color:#fff;font-size:11px;font-weight:700;min-width:24px;height:24px;padding:0 7px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;flex:none;}
+  h2.teal{color:var(--teal);} h2.teal .n{background:var(--teal);}
+  h2.gold{color:var(--gold);} h2.gold .n{background:var(--gold);}
+  h2.red{color:var(--red);} h2.red .n{background:var(--red);}
+  h2.violet{color:var(--violet);} h2.violet .n{background:var(--violet);}
+  .lead{color:var(--sub);font-size:13px;margin:0 0 12px;}
+  p{margin:8px 0;} h4{margin:10px 0 3px;color:var(--navy);font-size:13.5px;}
+  ul{margin:6px 0;padding-left:18px;} li{margin:3px 0;} b{color:#0c2138;} .k{font-weight:700;color:var(--navy);}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top;}
+  th{background:var(--navy);color:#fff;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;}
+  tbody td:first-child{background:#eef4fa;font-weight:700;color:var(--navy);}
+  table.zebra tr:nth-child(even) td{background:#f7fafc;}
+  table.zebra tr:nth-child(even) td:first-child{background:#e7eff7;}
+  .sec-head{background:var(--teal)!important;color:#fff;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.4px;}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;} @media(max-width:720px){.two{grid-template-columns:1fr;}}
+  .tip{border:1px solid var(--line);border-left:4px solid var(--teal);background:#f5fbfb;border-radius:8px;padding:9px 12px;margin-top:8px;}
+  .tip h4{margin:0 0 4px;color:var(--teal);font-size:13px;} .tip ul{margin:0;padding-left:16px;} .tip li{font-size:12.5px;}
+  .tip.red{border-left-color:var(--red);background:#fdf5f5;} .tip.red h4{color:var(--red);}
+  .tip.gold{border-left-color:var(--gold);background:#fbf8f1;} .tip.gold h4{color:var(--gold);}
+  .risk td:first-child{background:inherit;color:inherit;font-weight:700;}
+  .r-low{background:rgba(47,143,91,.14);} .r-il{background:rgba(120,170,90,.16);}
+  .r-ih{background:rgba(224,169,46,.18);} .r-high{background:rgba(194,59,59,.16);}
+  .mmap{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px;background:#fafcfd;}
+  .foot{color:var(--sub);font-size:11px;line-height:1.5;margin:14px 4px;} .foot em{font-style:italic;}
+  .abbr{font-size:11.5px;color:var(--sub);line-height:1.6;}
+  .miniref{font-size:12px;color:var(--sub);line-height:1.9;}
+  a.ref{color:var(--navy);text-decoration:none;border-bottom:1px dotted var(--navy);} a.ref:hover{background:#eef4fa;}
+  .pearl{border:1px solid var(--line);border-left:4px solid var(--teal);background:#f2fbfb;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:12.5px;} .pearl b{color:var(--teal);}
+  .new{color:var(--green);font-weight:700;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>Pulmonary Hypertension</h1>
+    <div class="sub">2022 ESC/ERS diagnosis &amp; treatment · definitions, classification, risk stratification, group-specific therapy · PCCM reference</div>
+    <div class="cite">Humbert M, Kovacs G, Hoeper MM, et al. 2022 ESC/ERS Guidelines for the diagnosis and treatment of pulmonary hypertension. <i>Eur Heart J / Eur Respir J</i> 2022. Drug updates through July 2026. Personal study reference — verify labeling before use.</div>
+  </header>
+
+  <nav class="toc">
+    <a href="#def">Definitions</a>
+    <a href="#class">Classification</a>
+    <a href="#dx">Diagnosis</a>
+    <a href="#echo">Echo probability</a>
+    <a href="#risk">Risk strata</a>
+    <a href="#tx1">PAH treatment</a>
+    <a href="#drugs">Drug classes</a>
+    <a href="#groups">Groups 2–5</a>
+    <a href="#pearls">Pearls</a>
+    <a href="#refs">References</a>
+  </nav>
+
+  <!-- DEFINITIONS -->
+  <section id="def">
+    <h2><span class="n">Hx</span>Hemodynamic definitions (updated 2022)</h2>
+    <p class="lead">Diagnosis requires right heart catheterization. The mPAP threshold was lowered from ≥25 to <b>&gt;20 mmHg</b>, and the PVR threshold for pre-capillary disease from &gt;3 to <b>&gt;2 Wood units</b>.</p>
+    <table class="zebra">
+      <tr><th>Definition</th><th>mPAP</th><th>PAWP</th><th>PVR</th><th>Typical setting</th></tr>
+      <tr><td>PH (any)</td><td>&gt;20 mmHg</td><td>—</td><td>—</td><td>Umbrella threshold</td></tr>
+      <tr><td>Pre-capillary PH</td><td>&gt;20</td><td>≤15</td><td><b>&gt;2 WU</b></td><td>Groups 1, 3, 4, 5</td></tr>
+      <tr><td>Isolated post-capillary (IpcPH)</td><td>&gt;20</td><td>&gt;15</td><td>≤2 WU</td><td>Group 2 (left heart)</td></tr>
+      <tr><td>Combined post- &amp; pre-capillary (CpcPH)</td><td>&gt;20</td><td>&gt;15</td><td>&gt;2 WU</td><td>Group 2 with vascular remodeling</td></tr>
+      <tr><td>Exercise PH</td><td colspan="4">mPAP/CO slope &gt;3 mmHg/L/min between rest and exercise (reintroduced 2022).</td></tr>
+    </table>
+    <div class="pearl"><b>PAH (Group 1)</b> = pre-capillary hemodynamics (mPAP &gt;20, PAWP ≤15, PVR &gt;2 WU) <b>after excluding</b> groups 2–5. The pulmonary vascular disease—not just the pressure—is what defines it.</div>
+  </section>
+
+  <!-- CLASSIFICATION -->
+  <section id="class">
+    <h2 class="teal"><span class="n">5</span>Clinical classification — the five groups</h2>
+    <table class="zebra">
+      <tr><th>Group</th><th>Mechanism</th><th>Examples</th></tr>
+      <tr><td>1 — PAH</td><td>Pulmonary arterial disease</td><td>Idiopathic (IPAH), heritable (HPAH), drug/toxin, connective tissue disease (CTD, esp. systemic sclerosis), HIV, portal hypertension, congenital heart disease, schistosomiasis; <b>PVOD/PCH</b>; persistent PH of the newborn (PPHN).</td></tr>
+      <tr><td>2 — Left heart</td><td>Post-capillary (↑ filling pressures)</td><td>HFpEF, HFrEF, valvular disease. <b>Most common cause overall.</b></td></tr>
+      <tr><td>3 — Lung disease / hypoxia</td><td>Hypoxic vasoconstriction, parenchymal loss</td><td>COPD, ILD, combined pulmonary fibrosis–emphysema, OSA/obesity-hypoventilation, high altitude.</td></tr>
+      <tr><td>4 — PA obstructions</td><td>Chronic thromboembolic / other obstruction</td><td><b>CTEPH</b>, pulmonary artery sarcoma/tumor, arteritis.</td></tr>
+      <tr><td>5 — Unclear / multifactorial</td><td>Mixed mechanisms</td><td>Hematologic (hemolytic anemia, MPN), sarcoidosis, metabolic, chronic renal failure/dialysis.</td></tr>
+    </table>
+  </section>
+
+  <!-- DIAGNOSIS -->
+  <section id="dx">
+    <h2 class="gold"><span class="n">Dx</span>Diagnostic pathway</h2>
+    <p class="lead">Suspect PH from dyspnea + RV signs → echo to assign probability → look for the common causes (groups 2 &amp; 3) → <b>always exclude CTEPH with a V/Q scan</b> → refer to a PH center for right heart catheterization before labeling PAH.</p>
+    <svg class="mmap" viewBox="0 0 1000 470" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Arial,sans-serif">
+      <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5c7285"/></marker></defs>
+      <g stroke="#5c7285" stroke-width="2" fill="none">
+        <path d="M500,52 V74" marker-end="url(#ar)"/>
+        <path d="M500,132 V154" marker-end="url(#ar)"/>
+        <path d="M500,214 V236" marker-end="url(#ar)"/>
+        <path d="M500,296 V318" marker-end="url(#ar)"/>
+        <path d="M500,378 V400" marker-end="url(#ar)"/>
+      </g>
+      <rect x="300" y="10" width="400" height="42" rx="9" fill="#1d5a97"/><text x="500" y="36" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Unexplained dyspnea + RV signs / risk factors</text>
+      <rect x="270" y="76" width="460" height="56" rx="9" fill="#f7fafc" stroke="#1d5a97"/><text x="500" y="99" text-anchor="middle" fill="#1d5a97" font-size="13" font-weight="800">Transthoracic echo → PH probability</text><text x="500" y="119" text-anchor="middle" fill="#16283a" font-size="12">low / intermediate / high (TRV + other RV signs)</text>
+      <rect x="270" y="158" width="460" height="56" rx="9" fill="#f7fafc" stroke="#0f7d84"/><text x="500" y="181" text-anchor="middle" fill="#0f7d84" font-size="13" font-weight="800">Assess for Groups 2 &amp; 3 (common)</text><text x="500" y="201" text-anchor="middle" fill="#16283a" font-size="12">ECG, PFTs+DLCO, HRCT, ABG/overnight oximetry, LV assessment</text>
+      <rect x="270" y="240" width="460" height="56" rx="9" fill="#fbf8f1" stroke="#a9761a"/><text x="500" y="263" text-anchor="middle" fill="#a9761a" font-size="13" font-weight="800">V/Q scan — mandatory to exclude CTEPH</text><text x="500" y="283" text-anchor="middle" fill="#16283a" font-size="12">mismatched defects → CT-PA / referral (Group 4)</text>
+      <rect x="270" y="322" width="460" height="56" rx="9" fill="#f7f4fb" stroke="#6a4a9c"/><text x="500" y="345" text-anchor="middle" fill="#6a4a9c" font-size="13" font-weight="800">Refer to PH center → right heart catheterization</text><text x="500" y="365" text-anchor="middle" fill="#16283a" font-size="12">confirm hemodynamics; vasoreactivity test if IPAH/HPAH/drug</text>
+      <rect x="300" y="404" width="400" height="46" rx="9" fill="#123a63"/><text x="500" y="424" text-anchor="middle" fill="#fff" font-size="13" font-weight="800">Assign group → risk-stratify → treat</text><text x="500" y="441" text-anchor="middle" fill="#cfe0f0" font-size="11.5">PAH only after groups 2–5 excluded</text>
+    </svg>
+  </section>
+
+  <!-- ECHO -->
+  <section id="echo">
+    <h2 class="teal"><span class="n">Echo</span>Echocardiographic probability</h2>
+    <p class="lead">Peak tricuspid regurgitation velocity (TRV) plus other RV/PA/IVC signs set the pre-test probability — echo screens, RHC confirms.</p>
+    <table class="zebra">
+      <tr><th>Peak TRV (m/s)</th><th>Other PH signs*</th><th>Echo probability</th></tr>
+      <tr><td>≤2.8 or not measurable</td><td>No</td><td>Low</td></tr>
+      <tr><td>≤2.8 or not measurable</td><td>Yes</td><td>Intermediate</td></tr>
+      <tr><td>2.9–3.4</td><td>No</td><td>Intermediate</td></tr>
+      <tr><td>2.9–3.4</td><td>Yes</td><td>High</td></tr>
+      <tr><td>&gt;3.4</td><td>Not required</td><td>High</td></tr>
+    </table>
+    <p style="font-size:12px;color:var(--sub);margin-top:6px;">*Other echo signs: RV/LV basal diameter ratio &gt;1.0, flattened interventricular septum, RV outflow tract (RVOT) notching / short acceleration time (AcT) &lt;105 ms, dilated pulmonary artery (PA), enlarged right atrial (RA) area, dilated non-collapsing inferior vena cava (IVC). Intermediate/high probability — or low probability with risk factors/unexplained symptoms — warrants further workup.</p>
+  </section>
+
+  <!-- RISK -->
+  <section id="risk">
+    <h2 class="red"><span class="n">Risk</span>Risk stratification</h2>
+    <p class="lead"><b>At diagnosis:</b> 3-strata model (low / intermediate / high) using all data. <b>At follow-up:</b> simplified <b>4-strata</b> model driven by three variables — the treatment target is to reach and stay <b>low risk</b>.</p>
+    <table class="risk zebra">
+      <tr><th>4-strata (follow-up)</th><th>WHO functional class</th><th>6-min walk (m)</th><th>NT-proBNP (ng/L)</th></tr>
+      <tr class="r-low"><td>Low</td><td>I–II</td><td>&gt;440</td><td>&lt;300</td></tr>
+      <tr class="r-il"><td>Intermediate-low</td><td>II</td><td>320–440</td><td>300–650</td></tr>
+      <tr class="r-ih"><td>Intermediate-high</td><td>III</td><td>165–320</td><td>650–1100</td></tr>
+      <tr class="r-high"><td>High</td><td>IV</td><td>&lt;165</td><td>&gt;1100</td></tr>
+    </table>
+    <p style="font-size:12px;color:var(--sub);margin-top:6px;">Estimated 1-year mortality rises across strata (~&lt;3% low → &gt;20% high). The full ESC/ERS/COMPERA models add hemodynamics (RAP, cardiac index, SvO₂) and imaging (RA area, pericardial effusion). REVEAL 2.0 is an alternative in the US.</p>
+  </section>
+
+  <!-- PAH TREATMENT -->
+  <section id="tx1">
+    <h2 class="gold"><span class="n">Rx</span>Group 1 PAH — treatment strategy</h2>
+    <div class="two">
+      <div>
+        <h4>Sequence</h4>
+        <ul>
+          <li><b>Vasoreactivity test</b> (inhaled NO) only in IPAH/heritable/drug-induced. Responder = mPAP falls ≥10 to &lt;40 mmHg with preserved/↑ cardiac output → trial <b>high-dose CCB</b> (only ~small % remain long-term responders).</li>
+          <li><b>Initial combination</b> for most (no significant cardiopulmonary comorbidities): <b>ERA + PDE5 inhibitor</b> (e.g. ambrisentan + tadalafil).</li>
+          <li><b>High risk at diagnosis:</b> add a <b>parenteral prostacyclin</b> (IV epoprostenol/treprostinil) up front — triple therapy; evaluate for transplant.</li>
+          <li>Patients with cardiopulmonary comorbidities: consider initial <b>monotherapy</b>, then individualize.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Reassess &amp; escalate (3–6 months)</h4>
+        <ul>
+          <li>Re-risk with the 4-strata model. <b>Goal = low risk.</b></li>
+          <li>Not at low risk → <b>add</b> a drug from an untapped pathway (prostacyclin pathway agent) and/or <b>sotatercept</b>.</li>
+          <li><b>Sotatercept (Winrevair)</b> <span class="new">activin-signaling inhibitor, SC q3 weeks</span> — approved 2024 as add-on for WHO-FC II–III; <b>2025 label expansion (ZENITH)</b> to high-risk PAH (76% ↓ in death/transplant/hospitalization).</li>
+          <li>Persistent intermediate-high/high risk → <b>refer for lung transplantation</b>.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pearl"><b>General measures:</b> supervised exercise/rehab, diuretics for RV volume overload, O₂ if hypoxemic, iron repletion, pregnancy avoidance/counseling, vaccinations, and referral to an expert PH center. <b>CCBs are only for confirmed vasoreactive responders</b> — harmful otherwise.</div>
+  </section>
+
+  <!-- DRUG CLASSES -->
+  <section id="drugs">
+    <h2><span class="n">Tx</span>PAH drug classes</h2>
+    <table class="zebra">
+      <tr><th>Pathway / class</th><th>Agents</th><th>Notes</th></tr>
+      <tr><td>Endothelin receptor antagonist (ERA)</td><td>Ambrisentan, bosentan, macitentan</td><td>Teratogenic (REMS); LFTs (bosentan); edema.</td></tr>
+      <tr><td>PDE5 inhibitor</td><td>Sildenafil, tadalafil</td><td>Do <b>not</b> combine with riociguat (hypotension).</td></tr>
+      <tr><td>sGC stimulator</td><td>Riociguat</td><td>PAH and inoperable/residual CTEPH; not with PDE5i or nitrates.</td></tr>
+      <tr><td>Prostacyclin pathway</td><td>Epoprostenol (IV), treprostinil (IV/SC/inhaled/oral), iloprost (inhaled), selexipag (oral IP agonist)</td><td>Parenteral for high-risk/severe; line infection &amp; interruption risks.</td></tr>
+      <tr><td>Activin signaling inhibitor</td><td><b>Sotatercept</b> (Winrevair)</td><td>SC every 3 weeks add-on; monitor Hb/platelets, telangiectasia/bleeding.</td></tr>
+      <tr><td>Calcium-channel blocker</td><td>Nifedipine, diltiazem, amlodipine (high dose)</td><td><b>Only</b> vasoreactive responders; reassess response.</td></tr>
+    </table>
+  </section>
+
+  <!-- GROUPS 2-5 -->
+  <section id="groups">
+    <h2 class="violet"><span class="n">2–5</span>Groups 2–5 — key management</h2>
+    <div class="tip">
+      <h4>Group 2 — left heart disease</h4>
+      <ul><li>Treat the underlying HF/valve disease and optimize filling pressures. <b>PAH-specific drugs are not indicated</b> (can cause pulmonary edema). Distinguish IpcPH vs CpcPH by PVR.</li></ul>
+    </div>
+    <div class="tip">
+      <h4>Group 3 — lung disease / hypoxia</h4>
+      <ul>
+        <li>Optimize the lung disease; supplemental O₂ for hypoxemia; treat OSA/OHS.</li>
+        <li><b>Inhaled treprostinil</b> is approved for <b>PH-ILD</b> (INCREASE trial — improved 6MWD); consider in severe PH (high PVR) at expert centers. Routine oral PAH drugs generally not beneficial and may worsen V/Q matching.</li>
+      </ul>
+    </div>
+    <div class="tip gold">
+      <h4>Group 4 — CTEPH</h4>
+      <ul>
+        <li><b>Lifelong anticoagulation</b> for all.</li>
+        <li><b>Pulmonary endarterectomy (PEA)</b> is the treatment of choice for <b>operable</b> disease — potentially curative; decide at a CTEPH center.</li>
+        <li>Inoperable or persistent/recurrent PH after PEA → <b>balloon pulmonary angioplasty (BPA)</b> and/or <b>riociguat</b> (± treprostinil). Multimodal PEA + BPA + medical therapy.</li>
+      </ul>
+    </div>
+    <div class="tip">
+      <h4>Group 5 — unclear/multifactorial</h4>
+      <ul><li>Individualized; treat the underlying condition. Avoid empiric PAH therapy without expert input.</li></ul>
+    </div>
+  </section>
+
+  <!-- PEARLS -->
+  <section id="pearls">
+    <h2 class="red"><span class="n">★</span>Attending pearls &amp; pitfalls</h2>
+    <div class="two">
+      <div class="tip red">
+        <h4>Don't miss / don't mislabel</h4>
+        <ul>
+          <li><b>Never skip the V/Q scan</b> — CTEPH is potentially curable and CT-PA can miss distal disease.</li>
+          <li>Most PH is <b>Group 2 or 3</b>; don't reflexively start PAH drugs — confirm pre-capillary physiology by RHC first.</li>
+          <li><b>DLCO out of proportion</b> to lung volumes / isolated low DLCO → suspect pulmonary vascular disease (or CPFE).</li>
+          <li>Suspect <b>PVOD/PCH</b> (a Group 1 subset) if pulmonary edema develops on PAH vasodilators, low DLCO, septal lines + centrilobular ground-glass on CT — refer for transplant.</li>
+        </ul>
+      </div>
+      <div class="tip gold">
+        <h4>Practice points</h4>
+        <ul>
+          <li>Screen high-risk groups: <b>systemic sclerosis</b> (annual DETECT/echo), portal hypertension pre-transplant, BMPR2 carriers.</li>
+          <li>SSc-PAH does worse than IPAH — lower threshold to escalate.</li>
+          <li>Right heart failure signs (rising NT-proBNP, ascites, syncope) = high risk → urgent expert referral.</li>
+          <li>Manage as a <b>PH center</b> problem: combination therapy, parenteral prostacyclins, transplant listing.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section id="refs">
+    <h2 class="teal"><span class="n">📖</span>Key references</h2>
+    <ul class="miniref">
+      <li>Humbert M, et al. 2022 ESC/ERS Guidelines for the diagnosis and treatment of pulmonary hypertension. <i>Eur Respir J</i> 2023;61:2200879. <a class="ref" href="https://doi.org/10.1183/13993003.00879-2022" target="_blank" rel="noopener">doi:10.1183/13993003.00879-2022</a></li>
+      <li>Hoeper MM, et al. Sotatercept for PAH (STELLAR). <i>N Engl J Med</i> 2023. <a class="ref" href="https://doi.org/10.1056/NEJMoa2213558" target="_blank" rel="noopener">doi:10.1056/NEJMoa2213558</a></li>
+      <li>Sotatercept ZENITH (high-risk PAH) → FDA updated indication, Oct 2025. <a class="ref" href="https://www.merck.com/news/u-s-fda-approves-updated-indication-for-winrevair-sotatercept-csrk-in-adults-with-pulmonary-arterial-hypertension-pah-who-group-1-pulmonary-hypertension-based-on-phase-3-zenith-study/" target="_blank" rel="noopener">Merck, 2025</a></li>
+      <li>Waxman A, et al. Inhaled treprostinil for PH-ILD (INCREASE). <i>N Engl J Med</i> 2021. <a class="ref" href="https://doi.org/10.1056/NEJMoa2008470" target="_blank" rel="noopener">doi:10.1056/NEJMoa2008470</a></li>
+    </ul>
+    <p class="miniref" style="margin-top:8px;">Currency check performed July 2026. Guideline-driven field — confirm current drug labeling and any newer society guidance before clinical use.</p>
+  </section>
+
+  <section>
+    <div class="abbr"><b>Abbreviations:</b> PH pulmonary hypertension · PAH pulmonary arterial hypertension · IPAH idiopathic PAH · HPAH heritable PAH · mPAP mean pulmonary arterial pressure · PAWP pulmonary arterial wedge pressure · PVR pulmonary vascular resistance · WU Wood units · RHC right heart catheterization · TRV tricuspid regurgitation velocity · RV/LV right/left ventricle · RVOT RV outflow tract · AcT acceleration time · PA pulmonary artery · RA right atrium · IVC inferior vena cava · CO cardiac output · CI cardiac index · RAP right atrial pressure · SvO₂ mixed venous O₂ saturation · WHO-FC WHO functional class · 6MWD 6-minute walk distance · NT-proBNP N-terminal pro-B-type natriuretic peptide · ERA endothelin receptor antagonist · PDE5i phosphodiesterase-5 inhibitor · sGC soluble guanylate cyclase · CCB calcium-channel blocker · NO nitric oxide · CTEPH chronic thromboembolic PH · PEA pulmonary endarterectomy · BPA balloon pulmonary angioplasty · PVOD/PCH pulmonary veno-occlusive disease / capillary hemangiomatosis · PPHN persistent PH of the newborn · CPFE combined pulmonary fibrosis–emphysema · CTD connective tissue disease · SSc systemic sclerosis · ILD interstitial lung disease · PH-ILD PH due to ILD · COPD chronic obstructive pulmonary disease · OSA obstructive sleep apnea · OHS obesity-hypoventilation syndrome · HFpEF/HFrEF heart failure with preserved/reduced ejection fraction · MPN myeloproliferative neoplasm · IpcPH/CpcPH isolated / combined post-capillary PH · DLCO diffusing capacity for CO · PFT pulmonary function test · HRCT high-resolution CT · CT-PA CT pulmonary angiography · V/Q ventilation–perfusion · ABG arterial blood gas · ECG electrocardiogram · LFT liver function test · REMS risk evaluation &amp; mitigation strategy · BMPR2 bone morphogenetic protein receptor type 2 (gene) · IV intravenous · SC subcutaneous · FDA US Food and Drug Administration. <b>Trials/tools:</b> STELLAR &amp; ZENITH (sotatercept), INCREASE (inhaled treprostinil in PH-ILD), DETECT (SSc-PAH screening), REVEAL 2.0 &amp; COMPERA (risk models).</div>
+  </section>
+
+  <div class="foot">
+    <em>Personal study reference — not a clinical protocol; confirm drug approvals, dosing and monitoring against current prescribing information and society guidance before use. Primary source: 2022 ESC/ERS pulmonary hypertension guidelines; drug/indication updates (sotatercept ZENITH 2025; inhaled treprostinil PH-ILD) verified July 2026. Risk-strata cutoffs per ESC/ERS 4-strata (COMPERA-derived) model.</em>
+  </div>
+
+</div>
+</body>
+</html>
