@@ -226,10 +226,34 @@ dialog::backdrop{background:rgba(4,14,24,.55);backdrop-filter:blur(3px)}
 .audit-section h3{font-size:13px;margin:0 0 7px}
 .audit-section p,.audit-section li{font-size:12px;color:var(--muted)}
 .audit-section ul{padding-left:18px;margin:7px 0}
-.compare-list{display:grid;gap:9px}
-.compare-row{border:1px solid var(--line);border-radius:12px;padding:12px}
-.compare-row b{font-size:13px}
-.compare-row p{font-size:11px;color:var(--muted);margin:5px 0 0}
+.compare-list{overflow-x:auto;overflow-y:hidden;padding:2px 2px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.compare-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(285px,1fr);gap:12px;min-width:max-content;align-items:stretch}
+.compare-card{width:300px;max-width:300px;border:1px solid var(--line);border-radius:14px;background:var(--surface-2);overflow:hidden;scroll-snap-align:start;display:flex;flex-direction:column}
+.compare-card.current{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 18%,transparent)}
+.compare-card-head{position:sticky;top:0;z-index:1;background:var(--surface);padding:13px 13px 11px;border-bottom:1px solid var(--line)}
+.compare-card.current .compare-card-head:before{content:"Selected trial";display:inline-block;margin-bottom:7px;padding:3px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.compare-card-title{font-size:14px;font-weight:800;line-height:1.25;color:var(--ink);margin:0 0 5px}
+.compare-meta{font-size:10.5px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.compare-fields{padding:4px 13px 13px}
+.compare-field{padding:10px 0;border-bottom:1px solid var(--line)}
+.compare-field:last-child{border-bottom:0}
+.compare-label{font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.compare-value{font-size:11.5px;line-height:1.45;color:var(--ink)}
+.compare-value.result{background:var(--surface);border-left:3px solid var(--accent);border-radius:7px;padding:7px 8px;font-weight:700}
+.compare-value.catch{color:var(--muted)}
+.compare-hint{font-size:10.5px;color:var(--muted);margin:0 0 10px}
+#compareDialog{width:min(1280px,calc(100vw - 24px));height:min(90vh,900px);max-height:90vh;overflow:hidden}
+#compareDialog .dialog-body{height:calc(100% - 67px);overflow:hidden;display:flex;flex-direction:column}
+#compareDialog .compare-list{flex:1;min-height:0;overflow-x:auto;overflow-y:auto;scrollbar-gutter:stable}
+#compareDialog .compare-track{align-items:start}
+#compareDialog .compare-card-head{top:0}
+@media(max-width:720px){
+  #compareDialog{width:calc(100vw - 16px);max-height:92vh}
+  #compareDialog .dialog-body{padding:12px}
+  .compare-track{grid-auto-columns:82vw}
+  .compare-card{width:82vw;max-width:82vw}
+  .deep-dive-body{grid-template-columns:1fr}
+}
 .footer-note{margin-top:22px;color:var(--muted);font-size:11px;text-align:center}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:var(--navy);color:white;border-radius:999px;padding:9px 13px;font-size:12px;transition:.2s;z-index:100}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -424,7 +448,7 @@ dialog::backdrop{background:rgba(4,14,24,.55);backdrop-filter:blur(3px)}
     </div>
     <div class="audit-section">
       <h3>How to read a trial card</h3>
-      <p>The top of each card emphasizes the population, primary result, and current practice implication. Expand it for design, harms, secondary outcomes, limitations, why the study mattered, and how it fits with related trials.</p>
+      <p>The top of each card emphasizes the population, primary result, and current practice implication. Expand it once for the full evidence summary: design, harms, secondary outcomes, limitations, practice impact, and context.</p>
     </div>
     <div class="audit-section">
       <h3>What the signal means</h3>
@@ -539,7 +563,7 @@ function trialCard(t){
       <div class="card-foot">
         <div class="practice" title="${esc(t.practice)}">${esc(t.practice)}</div>
         <div class="card-foot-actions">
-          ${t.family?`<button class="link-btn" data-compare="${esc(t.family)}">Compare family</button>`:""}
+          ${t.family?`<button class="link-btn" data-compare="${encodeURIComponent(t.family)}" data-current="${encodeURIComponent(t.id)}">Compare family</button>`:""}
           ${pub?`<a class="link-btn" href="${pub}" target="_blank" rel="noopener">PubMed ↗</a>`:""}
         </div>
       </div>
@@ -550,10 +574,10 @@ function trialCard(t){
         ${detail("Intervention",t.intervention)}
         ${detail("Primary outcome",t.outcome)}
         ${detail("Harms",t.harms,"harm")}
-        ${detail("Secondary outcomes",t.secondaries)}
         ${detail("Practice implication",t.practice,"impact")}
-        ${detail("Why it mattered",t.impact,"impact")}
         ${detail("Caveats",t.caveats,"caution")}
+        ${detail("Key secondary outcomes",t.secondaries)}
+        ${detail("Practice impact",t.impact,"impact")}
         ${detail("The catch",t.catch,"caution wide")}
         ${detail("Context",t.context,"wide")}
       </div>
@@ -606,11 +630,41 @@ function reset(keepDeck=true){
   $("#search").value=""; $("#sortSelect").value="newest"; render();
 }
 function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1400)}
-function openCompare(family){
+function openCompare(family,currentId=""){
   const rows=TRIALS.filter(t=>t.family===family).sort((a,b)=>Number(a.year)-Number(b.year));
   $("#compareTitle").textContent=family||"Trial family";
-  $("#compareBody").innerHTML=rows.map(t=>`<div class="compare-row"><b>${esc(t.trial)} <span class="verdict ${esc(t.verdict)}">${esc(t.verdict)}</span></b><p>${esc(t.year)} • ${esc(t.bottom)}</p></div>`).join("");
-  $("#compareDialog").showModal();
+  const field=(label,value,cls="")=>`<div class="compare-field"><div class="compare-label">${esc(label)}</div><div class="compare-value ${cls}">${esc(value||"—")}</div></div>`;
+  $("#compareBody").innerHTML=`<p class="compare-hint">${rows.length} related trials • chronological • scroll horizontally to compare the same evidence fields across studies</p><div class="compare-track">${rows.map(t=>`
+    <section class="compare-card ${t.id===currentId?"current":""}">
+      <div class="compare-card-head">
+        <h3 class="compare-card-title">${esc(t.trial)}</h3>
+        <div class="compare-meta"><span>${esc(t.year)}</span><span>•</span><span>${esc(t.journal)}</span><span>•</span><span>n=${esc(t.n)}</span><span class="verdict ${esc(t.verdict)}">${esc(t.verdict)}</span></div>
+      </div>
+      <div class="compare-fields">
+        ${field("Population",t.population)}
+        ${field("Intervention / comparator",t.intervention)}
+        ${field("Primary outcome",t.outcome)}
+        ${field("Key result",t.result,"result")}
+        ${field("Harms / safety",t.harms)}
+        ${field("Practice implication",t.practice)}
+        ${field("Bottom line",t.bottom)}
+        ${field("The catch",t.catch,"catch")}
+      </div>
+    </section>`).join("")}</div>`;
+  const dialog=$("#compareDialog");
+  const compareList=$("#compareBody");
+  dialog.showModal();
+  requestAnimationFrame(()=>{
+    dialog.scrollTop=0;
+    compareList.scrollTop=0;
+    const current=compareList.querySelector(".compare-card.current");
+    if(current){
+      const target=Math.max(0,current.offsetLeft-(compareList.clientWidth-current.offsetWidth)/2);
+      compareList.scrollLeft=target;
+    }else{
+      compareList.scrollLeft=0;
+    }
+  });
 }
 function applyTheme(pref){
   const effective=pref==="system"?(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):pref;
@@ -640,7 +694,7 @@ document.addEventListener("click",e=>{
   const stage=e.target.closest("[data-stage]"); if(stage){state.peStage=stage.dataset.stage;render();return}
   const exp=e.target.closest("[data-expand]"); if(exp){const card=exp.closest(".trial-card");card.classList.toggle("open");exp.textContent=card.classList.contains("open")?"⌃":"⌄";return}
   const sv=e.target.closest("[data-save]"); if(sv){const id=sv.dataset.save;saved.has(id)?saved.delete(id):saved.add(id);localStorage.setItem("pccmSaved",JSON.stringify([...saved]));render();toast(saved.has(id)?"Saved":"Removed from saved");return}
-  const cmp=e.target.closest("[data-compare]"); if(cmp){openCompare(cmp.dataset.compare);return}
+  const cmp=e.target.closest("[data-compare]"); if(cmp){openCompare(decodeURIComponent(cmp.dataset.compare),decodeURIComponent(cmp.dataset.current||""));return}
   const close=e.target.closest("[data-close]"); if(close){$("#"+close.dataset.close).close();return}
 });
 $("#search").addEventListener("input",e=>{state.query=e.target.value;render()});
